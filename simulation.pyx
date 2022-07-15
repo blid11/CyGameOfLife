@@ -4,14 +4,11 @@
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from cython.operator cimport dereference, postincrement
-from libcpp.algorithm cimport unique
-
-from cython.parallel import prange
 
 #vectors can be used as keys in a map 
 
 cdef extern from "<random>" namespace "std":
-    # mt19937 as before
+    # code from stack overflow:
     cdef cppclass mt19937:
       mt19937() except +
       mt19937(unsigned int) except +
@@ -79,9 +76,7 @@ cdef class SimRand:
             self.ca_beg_to_end(self.list_of_rules[rule_num], False)
             self.cellsToSimulate.clear()
             self.random_addr.clear()
-            #print(f"{self.cellsToSimulate.size()}")
             self.reset()
-            #print("\n")
     
     cpdef reset(self):
         self.numLiveCells = 0 
@@ -117,15 +112,11 @@ cdef class SimRand:
             b = self.numLiveCells
             #print(f"Num cells {b}")
             #print(f"Generation {self.generation}")
-
-            #print(self.liveCellsCurr)
-            
             self.ca_loop_logic(charac)
 
     cpdef ca_loop_logic(self, charac): 
 
         self.ca_update_live()
-        #self.numLiveCells = self.liveCellsCurr.size()
         #self.find_extreme_pattern
 
         if self.numLiveCells == 0: 
@@ -193,7 +184,6 @@ cdef class SimRand:
                     inLiveCells = True
             
             if not inLiveCells and count == self.fert: 
-                #self.liveCellsNew.push_back(self.any_cell)
                 self.liveCellsNew[self.numLiveCells] = self.any_cell
                 self.numLiveCells += 1
 
@@ -204,7 +194,6 @@ cdef class SimRand:
                         count_in_etuple = True
                 
                 if inLiveCells and count_in_etuple: 
-                    #self.liveCellsNew.push_back(self.any_cell)
                     self.liveCellsNew[self.numLiveCells] = self.any_cell
                     self.numLiveCells += 1
 
@@ -219,7 +208,6 @@ cdef class SimRand:
         for j in range(self.numLiveCells): 
             self.liveCellsCurr[j] = self.liveCellsNew[j]
 
-        #self.liveCellsNew.clear()
         self.changeList.clear()
 
     
@@ -254,7 +242,6 @@ cdef class SimRand:
 
         # want 20 % density so 100 unmirrored cells + 100 mirrored cells
         # randomly select 100 numbers between 0 and len(self.unmirrored_cells)
-        # random_addresses = random.sample(range(0, self.length_cell_list), self.num_init_cells)
         cdef mt19937 gen = mt19937(5)
         cdef discrete_distribution[int] dd = discrete_distribution[int](self.cell_addresses.begin(),self.cell_addresses.end())
 
@@ -271,8 +258,6 @@ cdef class SimRand:
                 
             if not duplicate:
                 self.random_addr.push_back(dd(gen))
-        #cdef set[int] random_add_set(self.random_addr.begin(), self.random_addr.end())
-        #unique(self.random_addr.begin(), self.random_addr.end())
 
         cdef int i = 0
         cdef int address = 0 
