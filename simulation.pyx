@@ -35,6 +35,7 @@ cdef class SimRand:
         int numLiveCells
         int generation
         bint allDead
+        bint endCondition
         int fert
         vector[int] Etuple
         int etuple_size
@@ -82,6 +83,7 @@ cdef class SimRand:
         self.numLiveCells = 0 
         self.generation = 1 
         self.allDead = False
+        self.endCondition = False
 
     cpdef parse_rule(self, rule):
         cdef bint store_fert = False
@@ -108,7 +110,7 @@ cdef class SimRand:
 
         self.ca_count_neigh()
 
-        while not self.allDead:
+        while not self.endCondition:
             b = self.numLiveCells
             #print(f"Num cells {b}")
             #print(f"Generation {self.generation}")
@@ -117,16 +119,30 @@ cdef class SimRand:
     cpdef ca_loop_logic(self, charac): 
 
         self.ca_update_live()
-        #self.find_extreme_pattern
+        self.find_extreme_pattern()
+        
+        if charac and (self.generation > 10): 
+            self.charac_glider()
 
-        if self.numLiveCells == 0: 
-            self.allDead = True
-        elif self.generation == 15: 
-            self.allDead = True
+        self.end_condition()
 
         self.generation += 1
         #self.contigList.clear()
         self.ca_count_neigh()
+
+    cpdef find_extreme_pattern(self): 
+        pass
+    
+    cpdef charac_glider(self): 
+        pass
+    
+    cpdef end_condition(self): 
+        if self.numLiveCells == 0: 
+            self.allDead = True
+            self.endCondition = True
+        elif self.generation == 15: 
+            self.allDead = True
+            self.endCondition = True
 
     cpdef ca_count_neigh(self):
 
@@ -272,5 +288,17 @@ cdef class CaptureSim(SimRand):
     def __cinit__(self, rule_num, num_sims): 
         super(SimRand, self).__init__(rule_num, num_sims)
 
- 
+    cpdef find_extreme_pattern(self): 
+        pass
+    
+    cpdef charac_glider(self): 
+        pass
+    
+    cpdef end_condition(self): 
+        if self.numLiveCells == 0: 
+            self.allDead = True
+            self.endCondition = True
+        elif self.generation == 15: 
+            self.allDead = True
+            self.endCondition = True
 

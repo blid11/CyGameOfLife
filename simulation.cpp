@@ -962,7 +962,7 @@ struct __pyx_obj_10simulation_SimRand;
 struct __pyx_obj_10simulation_CaptureSim;
 struct __pyx_opt_args_10simulation_7SimRand_ca_beg_to_end;
 
-/* "simulation.pyx":99
+/* "simulation.pyx":101
  *         self.etuple_size = self.Etuple.size()
  * 
  *     cpdef ca_beg_to_end(self, rule, characterize = False):             # <<<<<<<<<<<<<<
@@ -995,6 +995,7 @@ struct __pyx_obj_10simulation_SimRand {
   int numLiveCells;
   int generation;
   int allDead;
+  int endCondition;
   int fert;
   std::vector<int>  Etuple;
   int etuple_size;
@@ -1008,7 +1009,7 @@ struct __pyx_obj_10simulation_SimRand {
 };
 
 
-/* "simulation.pyx":270
+/* "simulation.pyx":286
  * 
  * 
  * cdef class CaptureSim(SimRand):             # <<<<<<<<<<<<<<
@@ -1034,6 +1035,9 @@ struct __pyx_vtabstruct_10simulation_SimRand {
   PyObject *(*parse_rule)(struct __pyx_obj_10simulation_SimRand *, PyObject *, int __pyx_skip_dispatch);
   PyObject *(*ca_beg_to_end)(struct __pyx_obj_10simulation_SimRand *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_10simulation_7SimRand_ca_beg_to_end *__pyx_optional_args);
   PyObject *(*ca_loop_logic)(struct __pyx_obj_10simulation_SimRand *, PyObject *, int __pyx_skip_dispatch);
+  PyObject *(*find_extreme_pattern)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch);
+  PyObject *(*charac_glider)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch);
+  PyObject *(*end_condition)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch);
   PyObject *(*ca_count_neigh)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch);
   PyObject *(*ca_update_live)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch);
   PyObject *(*gen_cell_indices)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch);
@@ -1042,7 +1046,7 @@ struct __pyx_vtabstruct_10simulation_SimRand {
 static struct __pyx_vtabstruct_10simulation_SimRand *__pyx_vtabptr_10simulation_SimRand;
 
 
-/* "simulation.pyx":270
+/* "simulation.pyx":286
  * 
  * 
  * cdef class CaptureSim(SimRand):             # <<<<<<<<<<<<<<
@@ -1705,11 +1709,17 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 static PyObject *__pyx_f_10simulation_7SimRand_reset(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_rule, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_rule, int __pyx_skip_dispatch, struct __pyx_opt_args_10simulation_7SimRand_ca_beg_to_end *__pyx_optional_args); /* proto*/
-static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_charac, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_charac, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_end_condition(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 
 /* Module declarations from 'libcpp.vector' */
 
@@ -1757,6 +1767,8 @@ static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_characterize[] = "characterize";
 static const char __pyx_k_ca_beg_to_end[] = "ca_beg_to_end";
 static const char __pyx_k_ca_loop_logic[] = "ca_loop_logic";
+static const char __pyx_k_charac_glider[] = "charac_glider";
+static const char __pyx_k_end_condition[] = "end_condition";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
 static const char __pyx_k_sym_rand_soup[] = "sym_rand_soup";
 static const char __pyx_k_ca_count_neigh[] = "ca_count_neigh";
@@ -1765,6 +1777,7 @@ static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_gen_cell_indices[] = "gen_cell_indices";
 static const char __pyx_k_Simulation_number[] = "Simulation number ";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
+static const char __pyx_k_find_extreme_pattern[] = "find_extreme_pattern";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
 static PyObject *__pyx_n_s_CaptureSim;
 static PyObject *__pyx_n_s_SimRand;
@@ -1774,10 +1787,13 @@ static PyObject *__pyx_n_s_ca_beg_to_end;
 static PyObject *__pyx_n_s_ca_count_neigh;
 static PyObject *__pyx_n_s_ca_loop_logic;
 static PyObject *__pyx_n_s_ca_update_live;
+static PyObject *__pyx_n_s_charac_glider;
 static PyObject *__pyx_n_s_characterize;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_end;
+static PyObject *__pyx_n_s_end_condition;
 static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_find_extreme_pattern;
 static PyObject *__pyx_n_s_gen_cell_indices;
 static PyObject *__pyx_n_s_getstate;
 static PyObject *__pyx_n_s_init;
@@ -1805,15 +1821,21 @@ static PyObject *__pyx_pf_10simulation_7SimRand_2reset(struct __pyx_obj_10simula
 static PyObject *__pyx_pf_10simulation_7SimRand_4parse_rule(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_rule); /* proto */
 static PyObject *__pyx_pf_10simulation_7SimRand_6ca_beg_to_end(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_rule, PyObject *__pyx_v_characterize); /* proto */
 static PyObject *__pyx_pf_10simulation_7SimRand_8ca_loop_logic(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_charac); /* proto */
-static PyObject *__pyx_pf_10simulation_7SimRand_10ca_count_neigh(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_7SimRand_12ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_7SimRand_14gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_7SimRand_16sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_7SimRand_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_7SimRand_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_10find_extreme_pattern(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_12charac_glider(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_14end_condition(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_16ca_count_neigh(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_18ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_20gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_22sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_24__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_7SimRand_26__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, PyObject *__pyx_v_rule_num, PyObject *__pyx_v_num_sims); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_10simulation_SimRand(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_10simulation_CaptureSim(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
@@ -1837,7 +1859,7 @@ static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 /* Late includes */
 
-/* "simulation.pyx":53
+/* "simulation.pyx":54
  *         vector[vector[int]] list_of_rules
  * 
  *     def __cinit__(self, rule_num, num_sims):             # <<<<<<<<<<<<<<
@@ -1879,11 +1901,11 @@ static int __pyx_pw_10simulation_7SimRand_1__cinit__(PyObject *__pyx_v_self, PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_num_sims)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(0, 53, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(0, 54, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 53, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 54, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1896,7 +1918,7 @@ static int __pyx_pw_10simulation_7SimRand_1__cinit__(PyObject *__pyx_v_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 53, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 54, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("simulation.SimRand.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -1941,9 +1963,9 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[0], 53, 0, __PYX_ERR(0, 53, __pyx_L1_error));
+  __Pyx_TraceCall("__cinit__", __pyx_f[0], 54, 0, __PYX_ERR(0, 54, __pyx_L1_error));
 
-  /* "simulation.pyx":54
+  /* "simulation.pyx":55
  * 
  *     def __cinit__(self, rule_num, num_sims):
  *         cdef int i = 0             # <<<<<<<<<<<<<<
@@ -1952,14 +1974,14 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
  */
   __pyx_v_i = 0;
 
-  /* "simulation.pyx":55
+  /* "simulation.pyx":56
  *     def __cinit__(self, rule_num, num_sims):
  *         cdef int i = 0
  *         cdef vector[int] cell = [1000, 1000, 1000]             # <<<<<<<<<<<<<<
  *         for i in range(3000):
  *             self.liveCellsCurr.push_back(cell)
  */
-  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_int_1000);
   __Pyx_GIVEREF(__pyx_int_1000);
@@ -1970,11 +1992,11 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_1000);
   __Pyx_GIVEREF(__pyx_int_1000);
   PyList_SET_ITEM(__pyx_t_1, 2, __pyx_int_1000);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_cell = __pyx_t_2;
 
-  /* "simulation.pyx":56
+  /* "simulation.pyx":57
  *         cdef int i = 0
  *         cdef vector[int] cell = [1000, 1000, 1000]
  *         for i in range(3000):             # <<<<<<<<<<<<<<
@@ -1984,7 +2006,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   for (__pyx_t_3 = 0; __pyx_t_3 < 0xBB8; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "simulation.pyx":57
+    /* "simulation.pyx":58
  *         cdef vector[int] cell = [1000, 1000, 1000]
  *         for i in range(3000):
  *             self.liveCellsCurr.push_back(cell)             # <<<<<<<<<<<<<<
@@ -1995,10 +2017,10 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
       __pyx_v_self->liveCellsCurr.push_back(__pyx_v_cell);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 57, __pyx_L1_error)
+      __PYX_ERR(0, 58, __pyx_L1_error)
     }
 
-    /* "simulation.pyx":58
+    /* "simulation.pyx":59
  *         for i in range(3000):
  *             self.liveCellsCurr.push_back(cell)
  *             self.liveCellsPrev.push_back(cell)             # <<<<<<<<<<<<<<
@@ -2009,10 +2031,10 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
       __pyx_v_self->liveCellsPrev.push_back(__pyx_v_cell);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 58, __pyx_L1_error)
+      __PYX_ERR(0, 59, __pyx_L1_error)
     }
 
-    /* "simulation.pyx":59
+    /* "simulation.pyx":60
  *             self.liveCellsCurr.push_back(cell)
  *             self.liveCellsPrev.push_back(cell)
  *             self.liveCellsNew.push_back(cell)             # <<<<<<<<<<<<<<
@@ -2023,18 +2045,18 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
       __pyx_v_self->liveCellsNew.push_back(__pyx_v_cell);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 59, __pyx_L1_error)
+      __PYX_ERR(0, 60, __pyx_L1_error)
     }
   }
 
-  /* "simulation.pyx":61
+  /* "simulation.pyx":62
  *             self.liveCellsNew.push_back(cell)
  * 
  *         self.list_of_rules = [[2, 3, 100, 5], [2, 5, 100, 5], [2, 7, 100, 5], [3, 5, 100, 5], [3, 6, 100, 5],             # <<<<<<<<<<<<<<
  *                                       [3, 7, 100, 5], [3, 8, 100, 5], [4, 100, 5], [4, 7, 100, 5], [5, 7, 100, 6],
  *                                       [5, 8, 100, 5], [8, 100, 5]]
  */
-  __pyx_t_1 = PyList_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_int_2);
   __Pyx_GIVEREF(__pyx_int_2);
@@ -2048,7 +2070,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_1, 3, __pyx_int_5);
-  __pyx_t_4 = PyList_New(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_4 = PyList_New(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_int_2);
   __Pyx_GIVEREF(__pyx_int_2);
@@ -2062,7 +2084,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_4, 3, __pyx_int_5);
-  __pyx_t_5 = PyList_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_5 = PyList_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_INCREF(__pyx_int_2);
   __Pyx_GIVEREF(__pyx_int_2);
@@ -2076,7 +2098,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_5, 3, __pyx_int_5);
-  __pyx_t_6 = PyList_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_6 = PyList_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF(__pyx_int_3);
   __Pyx_GIVEREF(__pyx_int_3);
@@ -2090,7 +2112,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_6, 3, __pyx_int_5);
-  __pyx_t_7 = PyList_New(4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_7 = PyList_New(4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF(__pyx_int_3);
   __Pyx_GIVEREF(__pyx_int_3);
@@ -2105,14 +2127,14 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_7, 3, __pyx_int_5);
 
-  /* "simulation.pyx":62
+  /* "simulation.pyx":63
  * 
  *         self.list_of_rules = [[2, 3, 100, 5], [2, 5, 100, 5], [2, 7, 100, 5], [3, 5, 100, 5], [3, 6, 100, 5],
  *                                       [3, 7, 100, 5], [3, 8, 100, 5], [4, 100, 5], [4, 7, 100, 5], [5, 7, 100, 6],             # <<<<<<<<<<<<<<
  *                                       [5, 8, 100, 5], [8, 100, 5]]
  *         self.reset()
  */
-  __pyx_t_8 = PyList_New(4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_8 = PyList_New(4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_INCREF(__pyx_int_3);
   __Pyx_GIVEREF(__pyx_int_3);
@@ -2126,7 +2148,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_8, 3, __pyx_int_5);
-  __pyx_t_9 = PyList_New(4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_9 = PyList_New(4); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_INCREF(__pyx_int_3);
   __Pyx_GIVEREF(__pyx_int_3);
@@ -2140,7 +2162,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_9, 3, __pyx_int_5);
-  __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_10 = PyList_New(3); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_INCREF(__pyx_int_4);
   __Pyx_GIVEREF(__pyx_int_4);
@@ -2151,7 +2173,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_10, 2, __pyx_int_5);
-  __pyx_t_11 = PyList_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_11 = PyList_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_INCREF(__pyx_int_4);
   __Pyx_GIVEREF(__pyx_int_4);
@@ -2165,7 +2187,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_11, 3, __pyx_int_5);
-  __pyx_t_12 = PyList_New(4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_t_12 = PyList_New(4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
@@ -2180,14 +2202,14 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_GIVEREF(__pyx_int_6);
   PyList_SET_ITEM(__pyx_t_12, 3, __pyx_int_6);
 
-  /* "simulation.pyx":63
+  /* "simulation.pyx":64
  *         self.list_of_rules = [[2, 3, 100, 5], [2, 5, 100, 5], [2, 7, 100, 5], [3, 5, 100, 5], [3, 6, 100, 5],
  *                                       [3, 7, 100, 5], [3, 8, 100, 5], [4, 100, 5], [4, 7, 100, 5], [5, 7, 100, 6],
  *                                       [5, 8, 100, 5], [8, 100, 5]]             # <<<<<<<<<<<<<<
  *         self.reset()
  * 
  */
-  __pyx_t_13 = PyList_New(4); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_13 = PyList_New(4); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_13);
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
@@ -2201,7 +2223,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_5);
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_13, 3, __pyx_int_5);
-  __pyx_t_14 = PyList_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_14 = PyList_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_INCREF(__pyx_int_8);
   __Pyx_GIVEREF(__pyx_int_8);
@@ -2213,14 +2235,14 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_GIVEREF(__pyx_int_5);
   PyList_SET_ITEM(__pyx_t_14, 2, __pyx_int_5);
 
-  /* "simulation.pyx":61
+  /* "simulation.pyx":62
  *             self.liveCellsNew.push_back(cell)
  * 
  *         self.list_of_rules = [[2, 3, 100, 5], [2, 5, 100, 5], [2, 7, 100, 5], [3, 5, 100, 5], [3, 6, 100, 5],             # <<<<<<<<<<<<<<
  *                                       [3, 7, 100, 5], [3, 8, 100, 5], [4, 100, 5], [4, 7, 100, 5], [5, 7, 100, 6],
  *                                       [5, 8, 100, 5], [8, 100, 5]]
  */
-  __pyx_t_15 = PyList_New(12); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_15 = PyList_New(12); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_GIVEREF(__pyx_t_1);
   PyList_SET_ITEM(__pyx_t_15, 0, __pyx_t_1);
@@ -2258,56 +2280,56 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __pyx_t_12 = 0;
   __pyx_t_13 = 0;
   __pyx_t_14 = 0;
-  __pyx_t_16 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_15); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_16 = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(__pyx_t_15); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
   __pyx_v_self->list_of_rules = __pyx_t_16;
 
-  /* "simulation.pyx":64
+  /* "simulation.pyx":65
  *                                       [3, 7, 100, 5], [3, 8, 100, 5], [4, 100, 5], [4, 7, 100, 5], [5, 7, 100, 6],
  *                                       [5, 8, 100, 5], [8, 100, 5]]
  *         self.reset()             # <<<<<<<<<<<<<<
  * 
  *         self.gen_cell_indices()
  */
-  __pyx_t_15 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->reset(__pyx_v_self, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_15 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->reset(__pyx_v_self, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-  /* "simulation.pyx":66
+  /* "simulation.pyx":67
  *         self.reset()
  * 
  *         self.gen_cell_indices()             # <<<<<<<<<<<<<<
  *         self.cell_addresses = range(self.length_cell_list)
  *         self.neighbour = [0, 0, 0]
  */
-  __pyx_t_15 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->gen_cell_indices(__pyx_v_self, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_15 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->gen_cell_indices(__pyx_v_self, 0); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-  /* "simulation.pyx":67
+  /* "simulation.pyx":68
  * 
  *         self.gen_cell_indices()
  *         self.cell_addresses = range(self.length_cell_list)             # <<<<<<<<<<<<<<
  *         self.neighbour = [0, 0, 0]
  * 
  */
-  __pyx_t_15 = __Pyx_PyInt_From_int(__pyx_v_self->length_cell_list); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_15 = __Pyx_PyInt_From_int(__pyx_v_self->length_cell_list); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_15);
-  __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_15); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_15); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_14); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_14); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_self->cell_addresses = __pyx_t_2;
 
-  /* "simulation.pyx":68
+  /* "simulation.pyx":69
  *         self.gen_cell_indices()
  *         self.cell_addresses = range(self.length_cell_list)
  *         self.neighbour = [0, 0, 0]             # <<<<<<<<<<<<<<
  * 
  *         cdef sim_num = 0
  */
-  __pyx_t_14 = PyList_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_14 = PyList_New(3); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
@@ -2318,11 +2340,11 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
   PyList_SET_ITEM(__pyx_t_14, 2, __pyx_int_0);
-  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_14); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_from_py_int(__pyx_t_14); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __pyx_v_self->neighbour = __pyx_t_2;
 
-  /* "simulation.pyx":70
+  /* "simulation.pyx":71
  *         self.neighbour = [0, 0, 0]
  * 
  *         cdef sim_num = 0             # <<<<<<<<<<<<<<
@@ -2332,22 +2354,22 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   __Pyx_INCREF(__pyx_int_0);
   __pyx_v_sim_num = __pyx_int_0;
 
-  /* "simulation.pyx":71
+  /* "simulation.pyx":72
  * 
  *         cdef sim_num = 0
  *         for sim_num in range(num_sims):             # <<<<<<<<<<<<<<
  *             if sim_num % 100 == 0:
  *                 print(f"Simulation number {sim_num}")
  */
-  __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_num_sims); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_num_sims); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_14);
   if (likely(PyList_CheckExact(__pyx_t_14)) || PyTuple_CheckExact(__pyx_t_14)) {
     __pyx_t_15 = __pyx_t_14; __Pyx_INCREF(__pyx_t_15); __pyx_t_17 = 0;
     __pyx_t_18 = NULL;
   } else {
-    __pyx_t_17 = -1; __pyx_t_15 = PyObject_GetIter(__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_17 = -1; __pyx_t_15 = PyObject_GetIter(__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
-    __pyx_t_18 = Py_TYPE(__pyx_t_15)->tp_iternext; if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_t_18 = Py_TYPE(__pyx_t_15)->tp_iternext; if (unlikely(!__pyx_t_18)) __PYX_ERR(0, 72, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   for (;;) {
@@ -2355,17 +2377,17 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
       if (likely(PyList_CheckExact(__pyx_t_15))) {
         if (__pyx_t_17 >= PyList_GET_SIZE(__pyx_t_15)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_14 = PyList_GET_ITEM(__pyx_t_15, __pyx_t_17); __Pyx_INCREF(__pyx_t_14); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_14 = PyList_GET_ITEM(__pyx_t_15, __pyx_t_17); __Pyx_INCREF(__pyx_t_14); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
         #else
-        __pyx_t_14 = PySequence_ITEM(__pyx_t_15, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_14 = PySequence_ITEM(__pyx_t_15, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 72, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         #endif
       } else {
         if (__pyx_t_17 >= PyTuple_GET_SIZE(__pyx_t_15)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_14 = PyTuple_GET_ITEM(__pyx_t_15, __pyx_t_17); __Pyx_INCREF(__pyx_t_14); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_14 = PyTuple_GET_ITEM(__pyx_t_15, __pyx_t_17); __Pyx_INCREF(__pyx_t_14); __pyx_t_17++; if (unlikely(0 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
         #else
-        __pyx_t_14 = PySequence_ITEM(__pyx_t_15, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 71, __pyx_L1_error)
+        __pyx_t_14 = PySequence_ITEM(__pyx_t_15, __pyx_t_17); __pyx_t_17++; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 72, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
         #endif
       }
@@ -2375,7 +2397,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 71, __pyx_L1_error)
+          else __PYX_ERR(0, 72, __pyx_L1_error)
         }
         break;
       }
@@ -2384,38 +2406,38 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
     __Pyx_DECREF_SET(__pyx_v_sim_num, __pyx_t_14);
     __pyx_t_14 = 0;
 
-    /* "simulation.pyx":72
+    /* "simulation.pyx":73
  *         cdef sim_num = 0
  *         for sim_num in range(num_sims):
  *             if sim_num % 100 == 0:             # <<<<<<<<<<<<<<
  *                 print(f"Simulation number {sim_num}")
  *             self.sym_rand_soup()
  */
-    __pyx_t_14 = __Pyx_PyInt_RemainderObjC(__pyx_v_sim_num, __pyx_int_100, 0x64, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyInt_RemainderObjC(__pyx_v_sim_num, __pyx_int_100, 0x64, 0, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_13 = __Pyx_PyInt_EqObjC(__pyx_t_14, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyInt_EqObjC(__pyx_t_14, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_19 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_19 < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     if (__pyx_t_19) {
 
-      /* "simulation.pyx":73
+      /* "simulation.pyx":74
  *         for sim_num in range(num_sims):
  *             if sim_num % 100 == 0:
  *                 print(f"Simulation number {sim_num}")             # <<<<<<<<<<<<<<
  *             self.sym_rand_soup()
  *             #print(self.cellsToSimulate)
  */
-      __pyx_t_13 = __Pyx_PyObject_FormatSimple(__pyx_v_sim_num, __pyx_empty_unicode); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_FormatSimple(__pyx_v_sim_num, __pyx_empty_unicode); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_14 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Simulation_number, __pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 73, __pyx_L1_error)
+      __pyx_t_14 = __Pyx_PyUnicode_Concat(__pyx_kp_u_Simulation_number, __pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      if (__Pyx_PrintOne(0, __pyx_t_14) < 0) __PYX_ERR(0, 73, __pyx_L1_error)
+      if (__Pyx_PrintOne(0, __pyx_t_14) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-      /* "simulation.pyx":72
+      /* "simulation.pyx":73
  *         cdef sim_num = 0
  *         for sim_num in range(num_sims):
  *             if sim_num % 100 == 0:             # <<<<<<<<<<<<<<
@@ -2424,35 +2446,35 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
  */
     }
 
-    /* "simulation.pyx":74
+    /* "simulation.pyx":75
  *             if sim_num % 100 == 0:
  *                 print(f"Simulation number {sim_num}")
  *             self.sym_rand_soup()             # <<<<<<<<<<<<<<
  *             #print(self.cellsToSimulate)
  *             self.ca_beg_to_end(self.list_of_rules[rule_num], False)
  */
-    __pyx_t_14 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->sym_rand_soup(__pyx_v_self, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 74, __pyx_L1_error)
+    __pyx_t_14 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->sym_rand_soup(__pyx_v_self, 0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-    /* "simulation.pyx":76
+    /* "simulation.pyx":77
  *             self.sym_rand_soup()
  *             #print(self.cellsToSimulate)
  *             self.ca_beg_to_end(self.list_of_rules[rule_num], False)             # <<<<<<<<<<<<<<
  *             self.cellsToSimulate.clear()
  *             self.random_addr.clear()
  */
-    __pyx_t_20 = __Pyx_PyInt_As_size_t(__pyx_v_rule_num); if (unlikely((__pyx_t_20 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 76, __pyx_L1_error)
-    __pyx_t_14 = __pyx_convert_vector_to_py_int((__pyx_v_self->list_of_rules[__pyx_t_20])); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_20 = __Pyx_PyInt_As_size_t(__pyx_v_rule_num); if (unlikely((__pyx_t_20 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 77, __pyx_L1_error)
+    __pyx_t_14 = __pyx_convert_vector_to_py_int((__pyx_v_self->list_of_rules[__pyx_t_20])); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __pyx_t_21.__pyx_n = 1;
     __pyx_t_21.characterize = Py_False;
-    __pyx_t_13 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_beg_to_end(__pyx_v_self, __pyx_t_14, 0, &__pyx_t_21); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 76, __pyx_L1_error)
+    __pyx_t_13 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_beg_to_end(__pyx_v_self, __pyx_t_14, 0, &__pyx_t_21); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
 
-    /* "simulation.pyx":77
+    /* "simulation.pyx":78
  *             #print(self.cellsToSimulate)
  *             self.ca_beg_to_end(self.list_of_rules[rule_num], False)
  *             self.cellsToSimulate.clear()             # <<<<<<<<<<<<<<
@@ -2461,7 +2483,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
  */
     __pyx_v_self->cellsToSimulate.clear();
 
-    /* "simulation.pyx":78
+    /* "simulation.pyx":79
  *             self.ca_beg_to_end(self.list_of_rules[rule_num], False)
  *             self.cellsToSimulate.clear()
  *             self.random_addr.clear()             # <<<<<<<<<<<<<<
@@ -2470,18 +2492,18 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
  */
     __pyx_v_self->random_addr.clear();
 
-    /* "simulation.pyx":79
+    /* "simulation.pyx":80
  *             self.cellsToSimulate.clear()
  *             self.random_addr.clear()
  *             self.reset()             # <<<<<<<<<<<<<<
  * 
  *     cpdef reset(self):
  */
-    __pyx_t_13 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->reset(__pyx_v_self, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_13 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->reset(__pyx_v_self, 0); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
 
-    /* "simulation.pyx":71
+    /* "simulation.pyx":72
  * 
  *         cdef sim_num = 0
  *         for sim_num in range(num_sims):             # <<<<<<<<<<<<<<
@@ -2491,7 +2513,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   }
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-  /* "simulation.pyx":53
+  /* "simulation.pyx":54
  *         vector[vector[int]] list_of_rules
  * 
  *     def __cinit__(self, rule_num, num_sims):             # <<<<<<<<<<<<<<
@@ -2525,7 +2547,7 @@ static int __pyx_pf_10simulation_7SimRand___cinit__(struct __pyx_obj_10simulatio
   return __pyx_r;
 }
 
-/* "simulation.pyx":81
+/* "simulation.pyx":82
  *             self.reset()
  * 
  *     cpdef reset(self):             # <<<<<<<<<<<<<<
@@ -2546,7 +2568,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_reset(struct __pyx_obj_10simulati
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
-  __Pyx_TraceCall("reset", __pyx_f[0], 81, 0, __PYX_ERR(0, 81, __pyx_L1_error));
+  __Pyx_TraceCall("reset", __pyx_f[0], 82, 0, __PYX_ERR(0, 82, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -2556,7 +2578,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_reset(struct __pyx_obj_10simulati
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_3reset)) {
         __Pyx_XDECREF(__pyx_r);
@@ -2573,7 +2595,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_reset(struct __pyx_obj_10simulati
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -2594,7 +2616,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_reset(struct __pyx_obj_10simulati
     #endif
   }
 
-  /* "simulation.pyx":82
+  /* "simulation.pyx":83
  * 
  *     cpdef reset(self):
  *         self.numLiveCells = 0             # <<<<<<<<<<<<<<
@@ -2603,25 +2625,34 @@ static PyObject *__pyx_f_10simulation_7SimRand_reset(struct __pyx_obj_10simulati
  */
   __pyx_v_self->numLiveCells = 0;
 
-  /* "simulation.pyx":83
+  /* "simulation.pyx":84
  *     cpdef reset(self):
  *         self.numLiveCells = 0
  *         self.generation = 1             # <<<<<<<<<<<<<<
  *         self.allDead = False
- * 
+ *         self.endCondition = False
  */
   __pyx_v_self->generation = 1;
 
-  /* "simulation.pyx":84
+  /* "simulation.pyx":85
  *         self.numLiveCells = 0
  *         self.generation = 1
  *         self.allDead = False             # <<<<<<<<<<<<<<
+ *         self.endCondition = False
  * 
- *     cpdef parse_rule(self, rule):
  */
   __pyx_v_self->allDead = 0;
 
-  /* "simulation.pyx":81
+  /* "simulation.pyx":86
+ *         self.generation = 1
+ *         self.allDead = False
+ *         self.endCondition = False             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef parse_rule(self, rule):
+ */
+  __pyx_v_self->endCondition = 0;
+
+  /* "simulation.pyx":82
  *             self.reset()
  * 
  *     cpdef reset(self):             # <<<<<<<<<<<<<<
@@ -2668,9 +2699,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_2reset(struct __pyx_obj_10simula
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
-  __Pyx_TraceCall("reset (wrapper)", __pyx_f[0], 81, 0, __PYX_ERR(0, 81, __pyx_L1_error));
+  __Pyx_TraceCall("reset (wrapper)", __pyx_f[0], 82, 0, __PYX_ERR(0, 82, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_reset(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_reset(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2688,8 +2719,8 @@ static PyObject *__pyx_pf_10simulation_7SimRand_2reset(struct __pyx_obj_10simula
   return __pyx_r;
 }
 
-/* "simulation.pyx":86
- *         self.allDead = False
+/* "simulation.pyx":88
+ *         self.endCondition = False
  * 
  *     cpdef parse_rule(self, rule):             # <<<<<<<<<<<<<<
  *         cdef bint store_fert = False
@@ -2715,7 +2746,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("parse_rule", 0);
-  __Pyx_TraceCall("parse_rule", __pyx_f[0], 86, 0, __PYX_ERR(0, 86, __pyx_L1_error));
+  __Pyx_TraceCall("parse_rule", __pyx_f[0], 88, 0, __PYX_ERR(0, 88, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -2725,7 +2756,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_parse_rule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_parse_rule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_5parse_rule)) {
         __Pyx_XDECREF(__pyx_r);
@@ -2742,7 +2773,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_rule) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_rule);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -2763,7 +2794,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
     #endif
   }
 
-  /* "simulation.pyx":87
+  /* "simulation.pyx":89
  * 
  *     cpdef parse_rule(self, rule):
  *         cdef bint store_fert = False             # <<<<<<<<<<<<<<
@@ -2772,7 +2803,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
  */
   __pyx_v_store_fert = 0;
 
-  /* "simulation.pyx":88
+  /* "simulation.pyx":90
  *     cpdef parse_rule(self, rule):
  *         cdef bint store_fert = False
  *         cdef int i = 0             # <<<<<<<<<<<<<<
@@ -2781,7 +2812,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
  */
   __pyx_v_i = 0;
 
-  /* "simulation.pyx":89
+  /* "simulation.pyx":91
  *         cdef bint store_fert = False
  *         cdef int i = 0
  *         for i in rule:             # <<<<<<<<<<<<<<
@@ -2792,26 +2823,26 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
     __pyx_t_1 = __pyx_v_rule; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_rule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_rule); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_2); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 91, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -2821,17 +2852,17 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 89, __pyx_L1_error)
+          else __PYX_ERR(0, 91, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_2);
     }
-    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 89, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_i = __pyx_t_7;
 
-    /* "simulation.pyx":90
+    /* "simulation.pyx":92
  *         cdef int i = 0
  *         for i in rule:
  *             if store_fert:             # <<<<<<<<<<<<<<
@@ -2841,7 +2872,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
     __pyx_t_8 = (__pyx_v_store_fert != 0);
     if (__pyx_t_8) {
 
-      /* "simulation.pyx":91
+      /* "simulation.pyx":93
  *         for i in rule:
  *             if store_fert:
  *                 self.fert = i             # <<<<<<<<<<<<<<
@@ -2850,7 +2881,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
  */
       __pyx_v_self->fert = __pyx_v_i;
 
-      /* "simulation.pyx":90
+      /* "simulation.pyx":92
  *         cdef int i = 0
  *         for i in rule:
  *             if store_fert:             # <<<<<<<<<<<<<<
@@ -2860,7 +2891,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
       goto __pyx_L5;
     }
 
-    /* "simulation.pyx":92
+    /* "simulation.pyx":94
  *             if store_fert:
  *                 self.fert = i
  *             elif i == 100:             # <<<<<<<<<<<<<<
@@ -2870,7 +2901,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
     __pyx_t_8 = ((__pyx_v_i == 0x64) != 0);
     if (__pyx_t_8) {
 
-      /* "simulation.pyx":93
+      /* "simulation.pyx":95
  *                 self.fert = i
  *             elif i == 100:
  *                 store_fert = True             # <<<<<<<<<<<<<<
@@ -2879,7 +2910,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
  */
       __pyx_v_store_fert = 1;
 
-      /* "simulation.pyx":92
+      /* "simulation.pyx":94
  *             if store_fert:
  *                 self.fert = i
  *             elif i == 100:             # <<<<<<<<<<<<<<
@@ -2889,7 +2920,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
       goto __pyx_L5;
     }
 
-    /* "simulation.pyx":95
+    /* "simulation.pyx":97
  *                 store_fert = True
  *             else:
  *                 self.Etuple.push_back(i)             # <<<<<<<<<<<<<<
@@ -2901,12 +2932,12 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
         __pyx_v_self->Etuple.push_back(__pyx_v_i);
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 95, __pyx_L1_error)
+        __PYX_ERR(0, 97, __pyx_L1_error)
       }
     }
     __pyx_L5:;
 
-    /* "simulation.pyx":89
+    /* "simulation.pyx":91
  *         cdef bint store_fert = False
  *         cdef int i = 0
  *         for i in rule:             # <<<<<<<<<<<<<<
@@ -2916,7 +2947,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "simulation.pyx":97
+  /* "simulation.pyx":99
  *                 self.Etuple.push_back(i)
  * 
  *         self.etuple_size = self.Etuple.size()             # <<<<<<<<<<<<<<
@@ -2925,8 +2956,8 @@ static PyObject *__pyx_f_10simulation_7SimRand_parse_rule(struct __pyx_obj_10sim
  */
   __pyx_v_self->etuple_size = __pyx_v_self->Etuple.size();
 
-  /* "simulation.pyx":86
- *         self.allDead = False
+  /* "simulation.pyx":88
+ *         self.endCondition = False
  * 
  *     cpdef parse_rule(self, rule):             # <<<<<<<<<<<<<<
  *         cdef bint store_fert = False
@@ -2972,9 +3003,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_4parse_rule(struct __pyx_obj_10s
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("parse_rule", 0);
-  __Pyx_TraceCall("parse_rule (wrapper)", __pyx_f[0], 86, 0, __PYX_ERR(0, 86, __pyx_L1_error));
+  __Pyx_TraceCall("parse_rule (wrapper)", __pyx_f[0], 88, 0, __PYX_ERR(0, 88, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_parse_rule(__pyx_v_self, __pyx_v_rule, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_parse_rule(__pyx_v_self, __pyx_v_rule, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2992,7 +3023,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_4parse_rule(struct __pyx_obj_10s
   return __pyx_r;
 }
 
-/* "simulation.pyx":99
+/* "simulation.pyx":101
  *         self.etuple_size = self.Etuple.size()
  * 
  *     cpdef ca_beg_to_end(self, rule, characterize = False):             # <<<<<<<<<<<<<<
@@ -3022,7 +3053,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_beg_to_end", 0);
-  __Pyx_TraceCall("ca_beg_to_end", __pyx_f[0], 99, 0, __PYX_ERR(0, 99, __pyx_L1_error));
+  __Pyx_TraceCall("ca_beg_to_end", __pyx_f[0], 101, 0, __PYX_ERR(0, 101, __pyx_L1_error));
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_characterize = __pyx_optional_args->characterize;
@@ -3037,7 +3068,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_beg_to_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_beg_to_end); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_7ca_beg_to_end)) {
         __Pyx_XDECREF(__pyx_r);
@@ -3057,7 +3088,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_rule, __pyx_v_characterize};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -3065,13 +3096,13 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_rule, __pyx_v_characterize};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 99, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 101, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3082,7 +3113,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
           __Pyx_INCREF(__pyx_v_characterize);
           __Pyx_GIVEREF(__pyx_v_characterize);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_characterize);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -3105,7 +3136,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
     #endif
   }
 
-  /* "simulation.pyx":101
+  /* "simulation.pyx":103
  *     cpdef ca_beg_to_end(self, rule, characterize = False):
  * 
  *         charac = characterize             # <<<<<<<<<<<<<<
@@ -3115,18 +3146,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
   __Pyx_INCREF(__pyx_v_characterize);
   __pyx_v_charac = __pyx_v_characterize;
 
-  /* "simulation.pyx":102
+  /* "simulation.pyx":104
  * 
  *         charac = characterize
  *         self.parse_rule(rule)             # <<<<<<<<<<<<<<
  *         self.numLiveCells = self.cellsToSimulate.size()
  * 
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->parse_rule(__pyx_v_self, __pyx_v_rule, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->parse_rule(__pyx_v_self, __pyx_v_rule, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "simulation.pyx":103
+  /* "simulation.pyx":105
  *         charac = characterize
  *         self.parse_rule(rule)
  *         self.numLiveCells = self.cellsToSimulate.size()             # <<<<<<<<<<<<<<
@@ -3135,7 +3166,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
  */
   __pyx_v_self->numLiveCells = __pyx_v_self->cellsToSimulate.size();
 
-  /* "simulation.pyx":105
+  /* "simulation.pyx":107
  *         self.numLiveCells = self.cellsToSimulate.size()
  * 
  *         cdef int cell_num = 0             # <<<<<<<<<<<<<<
@@ -3144,7 +3175,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
  */
   __pyx_v_cell_num = 0;
 
-  /* "simulation.pyx":106
+  /* "simulation.pyx":108
  * 
  *         cdef int cell_num = 0
  *         for cell_num in range(self.numLiveCells):             # <<<<<<<<<<<<<<
@@ -3156,7 +3187,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
   for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
     __pyx_v_cell_num = __pyx_t_8;
 
-    /* "simulation.pyx":107
+    /* "simulation.pyx":109
  *         cdef int cell_num = 0
  *         for cell_num in range(self.numLiveCells):
  *             self.liveCellsCurr[cell_num] = self.cellsToSimulate[cell_num]             # <<<<<<<<<<<<<<
@@ -3166,31 +3197,31 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
     (__pyx_v_self->liveCellsCurr[__pyx_v_cell_num]) = (__pyx_v_self->cellsToSimulate[__pyx_v_cell_num]);
   }
 
-  /* "simulation.pyx":109
+  /* "simulation.pyx":111
  *             self.liveCellsCurr[cell_num] = self.cellsToSimulate[cell_num]
  * 
  *         self.ca_count_neigh()             # <<<<<<<<<<<<<<
  * 
- *         while not self.allDead:
+ *         while not self.endCondition:
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_count_neigh(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_count_neigh(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "simulation.pyx":111
+  /* "simulation.pyx":113
  *         self.ca_count_neigh()
  * 
- *         while not self.allDead:             # <<<<<<<<<<<<<<
+ *         while not self.endCondition:             # <<<<<<<<<<<<<<
  *             b = self.numLiveCells
  *             #print(f"Num cells {b}")
  */
   while (1) {
-    __pyx_t_9 = ((!(__pyx_v_self->allDead != 0)) != 0);
+    __pyx_t_9 = ((!(__pyx_v_self->endCondition != 0)) != 0);
     if (!__pyx_t_9) break;
 
-    /* "simulation.pyx":112
+    /* "simulation.pyx":114
  * 
- *         while not self.allDead:
+ *         while not self.endCondition:
  *             b = self.numLiveCells             # <<<<<<<<<<<<<<
  *             #print(f"Num cells {b}")
  *             #print(f"Generation {self.generation}")
@@ -3198,19 +3229,19 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_beg_to_end(struct __pyx_obj_10
     __pyx_t_5 = __pyx_v_self->numLiveCells;
     __pyx_v_b = __pyx_t_5;
 
-    /* "simulation.pyx":115
+    /* "simulation.pyx":117
  *             #print(f"Num cells {b}")
  *             #print(f"Generation {self.generation}")
  *             self.ca_loop_logic(charac)             # <<<<<<<<<<<<<<
  * 
  *     cpdef ca_loop_logic(self, charac):
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_loop_logic(__pyx_v_self, __pyx_v_charac, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_loop_logic(__pyx_v_self, __pyx_v_charac, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "simulation.pyx":99
+  /* "simulation.pyx":101
  *         self.etuple_size = self.Etuple.size()
  * 
  *     cpdef ca_beg_to_end(self, rule, characterize = False):             # <<<<<<<<<<<<<<
@@ -3276,7 +3307,7 @@ static PyObject *__pyx_pw_10simulation_7SimRand_7ca_beg_to_end(PyObject *__pyx_v
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ca_beg_to_end") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ca_beg_to_end") < 0)) __PYX_ERR(0, 101, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3292,7 +3323,7 @@ static PyObject *__pyx_pw_10simulation_7SimRand_7ca_beg_to_end(PyObject *__pyx_v
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ca_beg_to_end", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ca_beg_to_end", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 101, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("simulation.SimRand.ca_beg_to_end", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3315,11 +3346,11 @@ static PyObject *__pyx_pf_10simulation_7SimRand_6ca_beg_to_end(struct __pyx_obj_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_beg_to_end", 0);
-  __Pyx_TraceCall("ca_beg_to_end (wrapper)", __pyx_f[0], 99, 0, __PYX_ERR(0, 99, __pyx_L1_error));
+  __Pyx_TraceCall("ca_beg_to_end (wrapper)", __pyx_f[0], 101, 0, __PYX_ERR(0, 101, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.characterize = __pyx_v_characterize;
-  __pyx_t_1 = __pyx_vtabptr_10simulation_SimRand->ca_beg_to_end(__pyx_v_self, __pyx_v_rule, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_1 = __pyx_vtabptr_10simulation_SimRand->ca_beg_to_end(__pyx_v_self, __pyx_v_rule, 1, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3337,7 +3368,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_6ca_beg_to_end(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "simulation.pyx":117
+/* "simulation.pyx":119
  *             self.ca_loop_logic(charac)
  * 
  *     cpdef ca_loop_logic(self, charac):             # <<<<<<<<<<<<<<
@@ -3346,7 +3377,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_6ca_beg_to_end(struct __pyx_obj_
  */
 
 static PyObject *__pyx_pw_10simulation_7SimRand_9ca_loop_logic(PyObject *__pyx_v_self, PyObject *__pyx_v_charac); /*proto*/
-static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_charac, int __pyx_skip_dispatch) {
+static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, PyObject *__pyx_v_charac, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3355,11 +3386,12 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
+  int __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_loop_logic", 0);
-  __Pyx_TraceCall("ca_loop_logic", __pyx_f[0], 117, 0, __PYX_ERR(0, 117, __pyx_L1_error));
+  __Pyx_TraceCall("ca_loop_logic", __pyx_f[0], 119, 0, __PYX_ERR(0, 119, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -3369,7 +3401,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_loop_logic); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_loop_logic); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_9ca_loop_logic)) {
         __Pyx_XDECREF(__pyx_r);
@@ -3386,7 +3418,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_v_charac) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_charac);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -3407,77 +3439,79 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10
     #endif
   }
 
-  /* "simulation.pyx":119
+  /* "simulation.pyx":121
  *     cpdef ca_loop_logic(self, charac):
  * 
  *         self.ca_update_live()             # <<<<<<<<<<<<<<
- *         #self.find_extreme_pattern
+ *         self.find_extreme_pattern()
  * 
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_update_live(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_update_live(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "simulation.pyx":122
- *         #self.find_extreme_pattern
  * 
- *         if self.numLiveCells == 0:             # <<<<<<<<<<<<<<
- *             self.allDead = True
- *         elif self.generation == 15:
- */
-  __pyx_t_5 = ((__pyx_v_self->numLiveCells == 0) != 0);
-  if (__pyx_t_5) {
-
-    /* "simulation.pyx":123
+ *         self.ca_update_live()
+ *         self.find_extreme_pattern()             # <<<<<<<<<<<<<<
  * 
- *         if self.numLiveCells == 0:
- *             self.allDead = True             # <<<<<<<<<<<<<<
- *         elif self.generation == 15:
- *             self.allDead = True
+ *         if charac and (self.generation > 10):
  */
-    __pyx_v_self->allDead = 1;
-
-    /* "simulation.pyx":122
- *         #self.find_extreme_pattern
- * 
- *         if self.numLiveCells == 0:             # <<<<<<<<<<<<<<
- *             self.allDead = True
- *         elif self.generation == 15:
- */
-    goto __pyx_L3;
-  }
+  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->find_extreme_pattern(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "simulation.pyx":124
- *         if self.numLiveCells == 0:
- *             self.allDead = True
- *         elif self.generation == 15:             # <<<<<<<<<<<<<<
- *             self.allDead = True
+ *         self.find_extreme_pattern()
+ * 
+ *         if charac and (self.generation > 10):             # <<<<<<<<<<<<<<
+ *             self.charac_glider()
  * 
  */
-  __pyx_t_5 = ((__pyx_v_self->generation == 15) != 0);
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_charac); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
+  if (__pyx_t_6) {
+  } else {
+    __pyx_t_5 = __pyx_t_6;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_6 = ((__pyx_v_self->generation > 10) != 0);
+  __pyx_t_5 = __pyx_t_6;
+  __pyx_L4_bool_binop_done:;
   if (__pyx_t_5) {
 
     /* "simulation.pyx":125
- *             self.allDead = True
- *         elif self.generation == 15:
- *             self.allDead = True             # <<<<<<<<<<<<<<
  * 
- *         self.generation += 1
+ *         if charac and (self.generation > 10):
+ *             self.charac_glider()             # <<<<<<<<<<<<<<
+ * 
+ *         self.end_condition()
  */
-    __pyx_v_self->allDead = 1;
+    __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->charac_glider(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "simulation.pyx":124
- *         if self.numLiveCells == 0:
- *             self.allDead = True
- *         elif self.generation == 15:             # <<<<<<<<<<<<<<
- *             self.allDead = True
+ *         self.find_extreme_pattern()
+ * 
+ *         if charac and (self.generation > 10):             # <<<<<<<<<<<<<<
+ *             self.charac_glider()
  * 
  */
   }
-  __pyx_L3:;
 
   /* "simulation.pyx":127
- *             self.allDead = True
+ *             self.charac_glider()
+ * 
+ *         self.end_condition()             # <<<<<<<<<<<<<<
+ * 
+ *         self.generation += 1
+ */
+  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->end_condition(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "simulation.pyx":129
+ *         self.end_condition()
  * 
  *         self.generation += 1             # <<<<<<<<<<<<<<
  *         #self.contigList.clear()
@@ -3485,18 +3519,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_loop_logic(struct __pyx_obj_10
  */
   __pyx_v_self->generation = (__pyx_v_self->generation + 1);
 
-  /* "simulation.pyx":129
+  /* "simulation.pyx":131
  *         self.generation += 1
  *         #self.contigList.clear()
  *         self.ca_count_neigh()             # <<<<<<<<<<<<<<
  * 
- *     cpdef ca_count_neigh(self):
+ *     cpdef find_extreme_pattern(self):
  */
-  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_count_neigh(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_1 = ((struct __pyx_vtabstruct_10simulation_SimRand *)__pyx_v_self->__pyx_vtab)->ca_count_neigh(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "simulation.pyx":117
+  /* "simulation.pyx":119
  *             self.ca_loop_logic(charac)
  * 
  *     cpdef ca_loop_logic(self, charac):             # <<<<<<<<<<<<<<
@@ -3543,9 +3577,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_8ca_loop_logic(struct __pyx_obj_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_loop_logic", 0);
-  __Pyx_TraceCall("ca_loop_logic (wrapper)", __pyx_f[0], 117, 0, __PYX_ERR(0, 117, __pyx_L1_error));
+  __Pyx_TraceCall("ca_loop_logic (wrapper)", __pyx_f[0], 119, 0, __PYX_ERR(0, 119, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_ca_loop_logic(__pyx_v_self, __pyx_v_charac, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_ca_loop_logic(__pyx_v_self, __pyx_v_charac, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 119, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3563,15 +3597,516 @@ static PyObject *__pyx_pf_10simulation_7SimRand_8ca_loop_logic(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "simulation.pyx":131
+/* "simulation.pyx":133
  *         self.ca_count_neigh()
+ * 
+ *     cpdef find_extreme_pattern(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+static PyObject *__pyx_pw_10simulation_7SimRand_11find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_extreme_pattern", 0);
+  __Pyx_TraceCall("find_extreme_pattern", __pyx_f[0], 133, 0, __PYX_ERR(0, 133, __pyx_L1_error));
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_find_extreme_pattern); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_11find_extreme_pattern)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "simulation.pyx":134
+ * 
+ *     cpdef find_extreme_pattern(self):
+ *         pass             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef charac_glider(self):
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("simulation.SimRand.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":133
+ *         self.ca_count_neigh()
+ * 
+ *     cpdef find_extreme_pattern(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10simulation_7SimRand_11find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_11find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("find_extreme_pattern (wrapper)", 0);
+  __pyx_r = __pyx_pf_10simulation_7SimRand_10find_extreme_pattern(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10simulation_7SimRand_10find_extreme_pattern(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_extreme_pattern", 0);
+  __Pyx_TraceCall("find_extreme_pattern (wrapper)", __pyx_f[0], 133, 0, __PYX_ERR(0, 133, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_find_extreme_pattern(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("simulation.SimRand.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":136
+ *         pass
+ * 
+ *     cpdef charac_glider(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+static PyObject *__pyx_pw_10simulation_7SimRand_13charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("charac_glider", 0);
+  __Pyx_TraceCall("charac_glider", __pyx_f[0], 136, 0, __PYX_ERR(0, 136, __pyx_L1_error));
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_charac_glider); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_13charac_glider)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "simulation.pyx":137
+ * 
+ *     cpdef charac_glider(self):
+ *         pass             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef end_condition(self):
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("simulation.SimRand.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":136
+ *         pass
+ * 
+ *     cpdef charac_glider(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10simulation_7SimRand_13charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_13charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("charac_glider (wrapper)", 0);
+  __pyx_r = __pyx_pf_10simulation_7SimRand_12charac_glider(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10simulation_7SimRand_12charac_glider(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("charac_glider", 0);
+  __Pyx_TraceCall("charac_glider (wrapper)", __pyx_f[0], 136, 0, __PYX_ERR(0, 136, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_charac_glider(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("simulation.SimRand.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":139
+ *         pass
+ * 
+ *     cpdef end_condition(self):             # <<<<<<<<<<<<<<
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True
+ */
+
+static PyObject *__pyx_pw_10simulation_7SimRand_15end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_7SimRand_end_condition(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("end_condition", 0);
+  __Pyx_TraceCall("end_condition", __pyx_f[0], 139, 0, __PYX_ERR(0, 139, __pyx_L1_error));
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_end_condition); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_15end_condition)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "simulation.pyx":140
+ * 
+ *     cpdef end_condition(self):
+ *         if self.numLiveCells == 0:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+  __pyx_t_5 = ((__pyx_v_self->numLiveCells == 0) != 0);
+  if (__pyx_t_5) {
+
+    /* "simulation.pyx":141
+ *     cpdef end_condition(self):
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True             # <<<<<<<<<<<<<<
+ *             self.endCondition = True
+ *         elif self.generation == 15:
+ */
+    __pyx_v_self->allDead = 1;
+
+    /* "simulation.pyx":142
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True
+ *             self.endCondition = True             # <<<<<<<<<<<<<<
+ *         elif self.generation == 15:
+ *             self.allDead = True
+ */
+    __pyx_v_self->endCondition = 1;
+
+    /* "simulation.pyx":140
+ * 
+ *     cpdef end_condition(self):
+ *         if self.numLiveCells == 0:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+    goto __pyx_L3;
+  }
+
+  /* "simulation.pyx":143
+ *             self.allDead = True
+ *             self.endCondition = True
+ *         elif self.generation == 15:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+  __pyx_t_5 = ((__pyx_v_self->generation == 15) != 0);
+  if (__pyx_t_5) {
+
+    /* "simulation.pyx":144
+ *             self.endCondition = True
+ *         elif self.generation == 15:
+ *             self.allDead = True             # <<<<<<<<<<<<<<
+ *             self.endCondition = True
+ * 
+ */
+    __pyx_v_self->allDead = 1;
+
+    /* "simulation.pyx":145
+ *         elif self.generation == 15:
+ *             self.allDead = True
+ *             self.endCondition = True             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef ca_count_neigh(self):
+ */
+    __pyx_v_self->endCondition = 1;
+
+    /* "simulation.pyx":143
+ *             self.allDead = True
+ *             self.endCondition = True
+ *         elif self.generation == 15:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+  }
+  __pyx_L3:;
+
+  /* "simulation.pyx":139
+ *         pass
+ * 
+ *     cpdef end_condition(self):             # <<<<<<<<<<<<<<
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("simulation.SimRand.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10simulation_7SimRand_15end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_15end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("end_condition (wrapper)", 0);
+  __pyx_r = __pyx_pf_10simulation_7SimRand_14end_condition(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10simulation_7SimRand_14end_condition(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("end_condition", 0);
+  __Pyx_TraceCall("end_condition (wrapper)", __pyx_f[0], 139, 0, __PYX_ERR(0, 139, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_end_condition(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("simulation.SimRand.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":147
+ *             self.endCondition = True
  * 
  *     cpdef ca_count_neigh(self):             # <<<<<<<<<<<<<<
  * 
  *         cdef bint xyz_zero = False
  */
 
-static PyObject *__pyx_pw_10simulation_7SimRand_11ca_count_neigh(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_17ca_count_neigh(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
   int __pyx_v_xyz_zero;
   int __pyx_v_xcoord;
@@ -3602,7 +4137,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_count_neigh", 0);
-  __Pyx_TraceCall("ca_count_neigh", __pyx_f[0], 131, 0, __PYX_ERR(0, 131, __pyx_L1_error));
+  __Pyx_TraceCall("ca_count_neigh", __pyx_f[0], 147, 0, __PYX_ERR(0, 147, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -3612,9 +4147,9 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_count_neigh); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_count_neigh); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_11ca_count_neigh)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_17ca_count_neigh)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -3629,7 +4164,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 131, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -3650,7 +4185,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
     #endif
   }
 
-  /* "simulation.pyx":133
+  /* "simulation.pyx":149
  *     cpdef ca_count_neigh(self):
  * 
  *         cdef bint xyz_zero = False             # <<<<<<<<<<<<<<
@@ -3659,7 +4194,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_xyz_zero = 0;
 
-  /* "simulation.pyx":134
+  /* "simulation.pyx":150
  * 
  *         cdef bint xyz_zero = False
  *         cdef int xcoord, ycoord, zcoord = 0             # <<<<<<<<<<<<<<
@@ -3668,7 +4203,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_zcoord = 0;
 
-  /* "simulation.pyx":135
+  /* "simulation.pyx":151
  *         cdef bint xyz_zero = False
  *         cdef int xcoord, ycoord, zcoord = 0
  *         cdef int cell_num = 0             # <<<<<<<<<<<<<<
@@ -3677,7 +4212,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_cell_num = 0;
 
-  /* "simulation.pyx":136
+  /* "simulation.pyx":152
  *         cdef int xcoord, ycoord, zcoord = 0
  *         cdef int cell_num = 0
  *         cdef int j = 0             # <<<<<<<<<<<<<<
@@ -3686,7 +4221,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_j = 0;
 
-  /* "simulation.pyx":138
+  /* "simulation.pyx":154
  *         cdef int j = 0
  * 
  *         cdef int x = -1             # <<<<<<<<<<<<<<
@@ -3695,7 +4230,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_x = -1;
 
-  /* "simulation.pyx":139
+  /* "simulation.pyx":155
  * 
  *         cdef int x = -1
  *         cdef int y = -1             # <<<<<<<<<<<<<<
@@ -3704,7 +4239,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_y = -1;
 
-  /* "simulation.pyx":140
+  /* "simulation.pyx":156
  *         cdef int x = -1
  *         cdef int y = -1
  *         cdef int z = -1             # <<<<<<<<<<<<<<
@@ -3713,7 +4248,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
   __pyx_v_z = -1;
 
-  /* "simulation.pyx":142
+  /* "simulation.pyx":158
  *         cdef int z = -1
  * 
  *         for cell_num in range(self.numLiveCells):             # <<<<<<<<<<<<<<
@@ -3725,7 +4260,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_cell_num = __pyx_t_7;
 
-    /* "simulation.pyx":143
+    /* "simulation.pyx":159
  * 
  *         for cell_num in range(self.numLiveCells):
  *             self.any_cell = self.liveCellsCurr[cell_num]             # <<<<<<<<<<<<<<
@@ -3734,7 +4269,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
     __pyx_v_self->any_cell = (__pyx_v_self->liveCellsCurr[__pyx_v_cell_num]);
 
-    /* "simulation.pyx":144
+    /* "simulation.pyx":160
  *         for cell_num in range(self.numLiveCells):
  *             self.any_cell = self.liveCellsCurr[cell_num]
  *             xcoord = self.any_cell[0]             # <<<<<<<<<<<<<<
@@ -3743,7 +4278,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
     __pyx_v_xcoord = (__pyx_v_self->any_cell[0]);
 
-    /* "simulation.pyx":145
+    /* "simulation.pyx":161
  *             self.any_cell = self.liveCellsCurr[cell_num]
  *             xcoord = self.any_cell[0]
  *             ycoord = self.any_cell[1]             # <<<<<<<<<<<<<<
@@ -3752,7 +4287,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
     __pyx_v_ycoord = (__pyx_v_self->any_cell[1]);
 
-    /* "simulation.pyx":146
+    /* "simulation.pyx":162
  *             xcoord = self.any_cell[0]
  *             ycoord = self.any_cell[1]
  *             zcoord = self.any_cell[2]             # <<<<<<<<<<<<<<
@@ -3761,7 +4296,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
     __pyx_v_zcoord = (__pyx_v_self->any_cell[2]);
 
-    /* "simulation.pyx":148
+    /* "simulation.pyx":164
  *             zcoord = self.any_cell[2]
  * 
  *             for x in range(-1, 2):             # <<<<<<<<<<<<<<
@@ -3771,7 +4306,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
     for (__pyx_t_8 = -1; __pyx_t_8 < 2; __pyx_t_8+=1) {
       __pyx_v_x = __pyx_t_8;
 
-      /* "simulation.pyx":149
+      /* "simulation.pyx":165
  * 
  *             for x in range(-1, 2):
  *                 for y in range(-1, 2):             # <<<<<<<<<<<<<<
@@ -3781,7 +4316,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
       for (__pyx_t_9 = -1; __pyx_t_9 < 2; __pyx_t_9+=1) {
         __pyx_v_y = __pyx_t_9;
 
-        /* "simulation.pyx":150
+        /* "simulation.pyx":166
  *             for x in range(-1, 2):
  *                 for y in range(-1, 2):
  *                     for z in range(-1, 2):             # <<<<<<<<<<<<<<
@@ -3791,7 +4326,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
         for (__pyx_t_10 = -1; __pyx_t_10 < 2; __pyx_t_10+=1) {
           __pyx_v_z = __pyx_t_10;
 
-          /* "simulation.pyx":151
+          /* "simulation.pyx":167
  *                 for y in range(-1, 2):
  *                     for z in range(-1, 2):
  *                         xyz_zero = False             # <<<<<<<<<<<<<<
@@ -3800,7 +4335,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
           __pyx_v_xyz_zero = 0;
 
-          /* "simulation.pyx":153
+          /* "simulation.pyx":169
  *                         xyz_zero = False
  *                         #self.neighbour = [xcoord + x, ycoord + y, zcoord + z]
  *                         self.neighbour[0] = xcoord + x             # <<<<<<<<<<<<<<
@@ -3809,7 +4344,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
           (__pyx_v_self->neighbour[0]) = (__pyx_v_xcoord + __pyx_v_x);
 
-          /* "simulation.pyx":154
+          /* "simulation.pyx":170
  *                         #self.neighbour = [xcoord + x, ycoord + y, zcoord + z]
  *                         self.neighbour[0] = xcoord + x
  *                         self.neighbour[1] = ycoord + y             # <<<<<<<<<<<<<<
@@ -3818,7 +4353,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
           (__pyx_v_self->neighbour[1]) = (__pyx_v_ycoord + __pyx_v_y);
 
-          /* "simulation.pyx":155
+          /* "simulation.pyx":171
  *                         self.neighbour[0] = xcoord + x
  *                         self.neighbour[1] = ycoord + y
  *                         self.neighbour[2] = zcoord + z             # <<<<<<<<<<<<<<
@@ -3827,7 +4362,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
           (__pyx_v_self->neighbour[2]) = (__pyx_v_zcoord + __pyx_v_z);
 
-          /* "simulation.pyx":156
+          /* "simulation.pyx":172
  *                         self.neighbour[1] = ycoord + y
  *                         self.neighbour[2] = zcoord + z
  *                         xyz_zero = x == 0 and y == 0 and z == 0             # <<<<<<<<<<<<<<
@@ -3851,7 +4386,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
           __pyx_L11_bool_binop_done:;
           __pyx_v_xyz_zero = __pyx_t_11;
 
-          /* "simulation.pyx":157
+          /* "simulation.pyx":173
  *                         self.neighbour[2] = zcoord + z
  *                         xyz_zero = x == 0 and y == 0 and z == 0
  *                         if not xyz_zero:             # <<<<<<<<<<<<<<
@@ -3861,7 +4396,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
           __pyx_t_11 = ((!(__pyx_v_xyz_zero != 0)) != 0);
           if (__pyx_t_11) {
 
-            /* "simulation.pyx":158
+            /* "simulation.pyx":174
  *                         xyz_zero = x == 0 and y == 0 and z == 0
  *                         if not xyz_zero:
  *                             self.chg_it = self.changeList.find(self.neighbour)             # <<<<<<<<<<<<<<
@@ -3870,7 +4405,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
  */
             __pyx_v_self->chg_it = __pyx_v_self->changeList.find(__pyx_v_self->neighbour);
 
-            /* "simulation.pyx":159
+            /* "simulation.pyx":175
  *                         if not xyz_zero:
  *                             self.chg_it = self.changeList.find(self.neighbour)
  *                             if self.chg_it != self.changeList.end():             # <<<<<<<<<<<<<<
@@ -3880,7 +4415,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
             __pyx_t_11 = ((__pyx_v_self->chg_it != __pyx_v_self->changeList.end()) != 0);
             if (__pyx_t_11) {
 
-              /* "simulation.pyx":160
+              /* "simulation.pyx":176
  *                             self.chg_it = self.changeList.find(self.neighbour)
  *                             if self.chg_it != self.changeList.end():
  *                                 self.changeList[self.neighbour] += 1             # <<<<<<<<<<<<<<
@@ -3890,7 +4425,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
               __pyx_t_13 = __pyx_v_self->neighbour;
               (__pyx_v_self->changeList[__pyx_t_13]) = ((__pyx_v_self->changeList[__pyx_t_13]) + 1);
 
-              /* "simulation.pyx":159
+              /* "simulation.pyx":175
  *                         if not xyz_zero:
  *                             self.chg_it = self.changeList.find(self.neighbour)
  *                             if self.chg_it != self.changeList.end():             # <<<<<<<<<<<<<<
@@ -3900,7 +4435,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
               goto __pyx_L15;
             }
 
-            /* "simulation.pyx":162
+            /* "simulation.pyx":178
  *                                 self.changeList[self.neighbour] += 1
  *                             else:
  *                                 self.changeList[self.neighbour] = 1             # <<<<<<<<<<<<<<
@@ -3912,7 +4447,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
             }
             __pyx_L15:;
 
-            /* "simulation.pyx":157
+            /* "simulation.pyx":173
  *                         self.neighbour[2] = zcoord + z
  *                         xyz_zero = x == 0 and y == 0 and z == 0
  *                         if not xyz_zero:             # <<<<<<<<<<<<<<
@@ -3925,8 +4460,8 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
     }
   }
 
-  /* "simulation.pyx":131
- *         self.ca_count_neigh()
+  /* "simulation.pyx":147
+ *             self.endCondition = True
  * 
  *     cpdef ca_count_neigh(self):             # <<<<<<<<<<<<<<
  * 
@@ -3951,19 +4486,19 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_7SimRand_11ca_count_neigh(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_7SimRand_11ca_count_neigh(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_7SimRand_17ca_count_neigh(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_17ca_count_neigh(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("ca_count_neigh (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_7SimRand_10ca_count_neigh(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_7SimRand_16ca_count_neigh(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_7SimRand_10ca_count_neigh(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_7SimRand_16ca_count_neigh(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -3972,9 +4507,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_10ca_count_neigh(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_count_neigh", 0);
-  __Pyx_TraceCall("ca_count_neigh (wrapper)", __pyx_f[0], 131, 0, __PYX_ERR(0, 131, __pyx_L1_error));
+  __Pyx_TraceCall("ca_count_neigh (wrapper)", __pyx_f[0], 147, 0, __PYX_ERR(0, 147, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_ca_count_neigh(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_ca_count_neigh(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3992,7 +4527,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_10ca_count_neigh(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "simulation.pyx":164
+/* "simulation.pyx":180
  *                                 self.changeList[self.neighbour] = 1
  * 
  *     cpdef ca_update_live(self):             # <<<<<<<<<<<<<<
@@ -4000,7 +4535,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_10ca_count_neigh(struct __pyx_ob
  *         self.chg_it = self.changeList.begin()
  */
 
-static PyObject *__pyx_pw_10simulation_7SimRand_13ca_update_live(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_19ca_update_live(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
   int __pyx_v_count;
   int __pyx_v_vec_pos;
@@ -4025,7 +4560,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_update_live", 0);
-  __Pyx_TraceCall("ca_update_live", __pyx_f[0], 164, 0, __PYX_ERR(0, 164, __pyx_L1_error));
+  __Pyx_TraceCall("ca_update_live", __pyx_f[0], 180, 0, __PYX_ERR(0, 180, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -4035,9 +4570,9 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_update_live); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ca_update_live); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_13ca_update_live)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_19ca_update_live)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -4052,7 +4587,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -4073,7 +4608,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     #endif
   }
 
-  /* "simulation.pyx":166
+  /* "simulation.pyx":182
  *     cpdef ca_update_live(self):
  * 
  *         self.chg_it = self.changeList.begin()             # <<<<<<<<<<<<<<
@@ -4082,7 +4617,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_self->chg_it = __pyx_v_self->changeList.begin();
 
-  /* "simulation.pyx":167
+  /* "simulation.pyx":183
  * 
  *         self.chg_it = self.changeList.begin()
  *         cdef int count = 0             # <<<<<<<<<<<<<<
@@ -4091,7 +4626,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_count = 0;
 
-  /* "simulation.pyx":168
+  /* "simulation.pyx":184
  *         self.chg_it = self.changeList.begin()
  *         cdef int count = 0
  *         cdef int vec_pos = 0             # <<<<<<<<<<<<<<
@@ -4100,7 +4635,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_vec_pos = 0;
 
-  /* "simulation.pyx":169
+  /* "simulation.pyx":185
  *         cdef int count = 0
  *         cdef int vec_pos = 0
  *         cdef int i = 0             # <<<<<<<<<<<<<<
@@ -4109,7 +4644,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_i = 0;
 
-  /* "simulation.pyx":171
+  /* "simulation.pyx":187
  *         cdef int i = 0
  * 
  *         cdef bint inLiveCells = False             # <<<<<<<<<<<<<<
@@ -4118,7 +4653,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_inLiveCells = 0;
 
-  /* "simulation.pyx":172
+  /* "simulation.pyx":188
  * 
  *         cdef bint inLiveCells = False
  *         cdef bint count_in_etuple = False             # <<<<<<<<<<<<<<
@@ -4127,7 +4662,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_count_in_etuple = 0;
 
-  /* "simulation.pyx":174
+  /* "simulation.pyx":190
  *         cdef bint count_in_etuple = False
  * 
  *         self.numLiveCells = 0             # <<<<<<<<<<<<<<
@@ -4136,7 +4671,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_self->numLiveCells = 0;
 
-  /* "simulation.pyx":176
+  /* "simulation.pyx":192
  *         self.numLiveCells = 0
  * 
  *         while(self.chg_it != self.changeList.end()):             # <<<<<<<<<<<<<<
@@ -4147,7 +4682,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     __pyx_t_5 = ((__pyx_v_self->chg_it != __pyx_v_self->changeList.end()) != 0);
     if (!__pyx_t_5) break;
 
-    /* "simulation.pyx":177
+    /* "simulation.pyx":193
  * 
  *         while(self.chg_it != self.changeList.end()):
  *             self.any_cell = dereference(self.chg_it).first             # <<<<<<<<<<<<<<
@@ -4157,7 +4692,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     __pyx_t_6 = (*__pyx_v_self->chg_it).first;
     __pyx_v_self->any_cell = __pyx_t_6;
 
-    /* "simulation.pyx":178
+    /* "simulation.pyx":194
  *         while(self.chg_it != self.changeList.end()):
  *             self.any_cell = dereference(self.chg_it).first
  *             count = dereference(self.chg_it).second             # <<<<<<<<<<<<<<
@@ -4167,7 +4702,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     __pyx_t_7 = (*__pyx_v_self->chg_it).second;
     __pyx_v_count = __pyx_t_7;
 
-    /* "simulation.pyx":180
+    /* "simulation.pyx":196
  *             count = dereference(self.chg_it).second
  * 
  *             inLiveCells = False             # <<<<<<<<<<<<<<
@@ -4176,7 +4711,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
     __pyx_v_inLiveCells = 0;
 
-    /* "simulation.pyx":182
+    /* "simulation.pyx":198
  *             inLiveCells = False
  * 
  *             for vec_pos in range(self.numLiveCells):             # <<<<<<<<<<<<<<
@@ -4188,7 +4723,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
       __pyx_v_vec_pos = __pyx_t_9;
 
-      /* "simulation.pyx":183
+      /* "simulation.pyx":199
  * 
  *             for vec_pos in range(self.numLiveCells):
  *                 if self.any_cell == self.liveCellsCurr[vec_pos]:             # <<<<<<<<<<<<<<
@@ -4198,7 +4733,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
       __pyx_t_5 = ((__pyx_v_self->any_cell == (__pyx_v_self->liveCellsCurr[__pyx_v_vec_pos])) != 0);
       if (__pyx_t_5) {
 
-        /* "simulation.pyx":184
+        /* "simulation.pyx":200
  *             for vec_pos in range(self.numLiveCells):
  *                 if self.any_cell == self.liveCellsCurr[vec_pos]:
  *                     inLiveCells = True             # <<<<<<<<<<<<<<
@@ -4207,7 +4742,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
         __pyx_v_inLiveCells = 1;
 
-        /* "simulation.pyx":183
+        /* "simulation.pyx":199
  * 
  *             for vec_pos in range(self.numLiveCells):
  *                 if self.any_cell == self.liveCellsCurr[vec_pos]:             # <<<<<<<<<<<<<<
@@ -4217,7 +4752,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
       }
     }
 
-    /* "simulation.pyx":186
+    /* "simulation.pyx":202
  *                     inLiveCells = True
  * 
  *             if not inLiveCells and count == self.fert:             # <<<<<<<<<<<<<<
@@ -4235,7 +4770,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "simulation.pyx":187
+      /* "simulation.pyx":203
  * 
  *             if not inLiveCells and count == self.fert:
  *                 self.liveCellsNew[self.numLiveCells] = self.any_cell             # <<<<<<<<<<<<<<
@@ -4245,7 +4780,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
       __pyx_t_6 = __pyx_v_self->any_cell;
       (__pyx_v_self->liveCellsNew[__pyx_v_self->numLiveCells]) = __pyx_t_6;
 
-      /* "simulation.pyx":188
+      /* "simulation.pyx":204
  *             if not inLiveCells and count == self.fert:
  *                 self.liveCellsNew[self.numLiveCells] = self.any_cell
  *                 self.numLiveCells += 1             # <<<<<<<<<<<<<<
@@ -4254,7 +4789,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
       __pyx_v_self->numLiveCells = (__pyx_v_self->numLiveCells + 1);
 
-      /* "simulation.pyx":186
+      /* "simulation.pyx":202
  *                     inLiveCells = True
  * 
  *             if not inLiveCells and count == self.fert:             # <<<<<<<<<<<<<<
@@ -4264,7 +4799,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
       goto __pyx_L8;
     }
 
-    /* "simulation.pyx":191
+    /* "simulation.pyx":207
  * 
  *             else:
  *                 count_in_etuple = False             # <<<<<<<<<<<<<<
@@ -4274,7 +4809,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     /*else*/ {
       __pyx_v_count_in_etuple = 0;
 
-      /* "simulation.pyx":192
+      /* "simulation.pyx":208
  *             else:
  *                 count_in_etuple = False
  *                 for i in range(self.etuple_size):             # <<<<<<<<<<<<<<
@@ -4286,7 +4821,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
       for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
         __pyx_v_i = __pyx_t_9;
 
-        /* "simulation.pyx":193
+        /* "simulation.pyx":209
  *                 count_in_etuple = False
  *                 for i in range(self.etuple_size):
  *                     if count == self.Etuple[i]:             # <<<<<<<<<<<<<<
@@ -4296,7 +4831,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
         __pyx_t_5 = ((__pyx_v_count == (__pyx_v_self->Etuple[__pyx_v_i])) != 0);
         if (__pyx_t_5) {
 
-          /* "simulation.pyx":194
+          /* "simulation.pyx":210
  *                 for i in range(self.etuple_size):
  *                     if count == self.Etuple[i]:
  *                         count_in_etuple = True             # <<<<<<<<<<<<<<
@@ -4305,7 +4840,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
           __pyx_v_count_in_etuple = 1;
 
-          /* "simulation.pyx":193
+          /* "simulation.pyx":209
  *                 count_in_etuple = False
  *                 for i in range(self.etuple_size):
  *                     if count == self.Etuple[i]:             # <<<<<<<<<<<<<<
@@ -4315,7 +4850,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
         }
       }
 
-      /* "simulation.pyx":196
+      /* "simulation.pyx":212
  *                         count_in_etuple = True
  * 
  *                 if inLiveCells and count_in_etuple:             # <<<<<<<<<<<<<<
@@ -4333,7 +4868,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
       __pyx_L15_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "simulation.pyx":197
+        /* "simulation.pyx":213
  * 
  *                 if inLiveCells and count_in_etuple:
  *                     self.liveCellsNew[self.numLiveCells] = self.any_cell             # <<<<<<<<<<<<<<
@@ -4343,7 +4878,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
         __pyx_t_6 = __pyx_v_self->any_cell;
         (__pyx_v_self->liveCellsNew[__pyx_v_self->numLiveCells]) = __pyx_t_6;
 
-        /* "simulation.pyx":198
+        /* "simulation.pyx":214
  *                 if inLiveCells and count_in_etuple:
  *                     self.liveCellsNew[self.numLiveCells] = self.any_cell
  *                     self.numLiveCells += 1             # <<<<<<<<<<<<<<
@@ -4352,7 +4887,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
         __pyx_v_self->numLiveCells = (__pyx_v_self->numLiveCells + 1);
 
-        /* "simulation.pyx":196
+        /* "simulation.pyx":212
  *                         count_in_etuple = True
  * 
  *                 if inLiveCells and count_in_etuple:             # <<<<<<<<<<<<<<
@@ -4363,7 +4898,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     }
     __pyx_L8:;
 
-    /* "simulation.pyx":200
+    /* "simulation.pyx":216
  *                     self.numLiveCells += 1
  * 
  *             postincrement(self.chg_it)             # <<<<<<<<<<<<<<
@@ -4373,7 +4908,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     (void)((__pyx_v_self->chg_it++));
   }
 
-  /* "simulation.pyx":207
+  /* "simulation.pyx":223
  *         #     print self.liveCellsNew[k],
  * 
  *         cdef int j = 0             # <<<<<<<<<<<<<<
@@ -4382,7 +4917,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_j = 0;
 
-  /* "simulation.pyx":208
+  /* "simulation.pyx":224
  * 
  *         cdef int j = 0
  *         for j in range(self.numLiveCells):             # <<<<<<<<<<<<<<
@@ -4394,7 +4929,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_j = __pyx_t_9;
 
-    /* "simulation.pyx":209
+    /* "simulation.pyx":225
  *         cdef int j = 0
  *         for j in range(self.numLiveCells):
  *             self.liveCellsCurr[j] = self.liveCellsNew[j]             # <<<<<<<<<<<<<<
@@ -4404,7 +4939,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
     (__pyx_v_self->liveCellsCurr[__pyx_v_j]) = (__pyx_v_self->liveCellsNew[__pyx_v_j]);
   }
 
-  /* "simulation.pyx":211
+  /* "simulation.pyx":227
  *             self.liveCellsCurr[j] = self.liveCellsNew[j]
  * 
  *         self.changeList.clear()             # <<<<<<<<<<<<<<
@@ -4413,7 +4948,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
  */
   __pyx_v_self->changeList.clear();
 
-  /* "simulation.pyx":164
+  /* "simulation.pyx":180
  *                                 self.changeList[self.neighbour] = 1
  * 
  *     cpdef ca_update_live(self):             # <<<<<<<<<<<<<<
@@ -4439,19 +4974,19 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_1
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_7SimRand_13ca_update_live(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_7SimRand_13ca_update_live(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_7SimRand_19ca_update_live(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_19ca_update_live(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("ca_update_live (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_7SimRand_12ca_update_live(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_7SimRand_18ca_update_live(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_7SimRand_12ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_7SimRand_18ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4460,9 +4995,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_12ca_update_live(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ca_update_live", 0);
-  __Pyx_TraceCall("ca_update_live (wrapper)", __pyx_f[0], 164, 0, __PYX_ERR(0, 164, __pyx_L1_error));
+  __Pyx_TraceCall("ca_update_live (wrapper)", __pyx_f[0], 180, 0, __PYX_ERR(0, 180, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_ca_update_live(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_ca_update_live(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4480,7 +5015,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_12ca_update_live(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "simulation.pyx":214
+/* "simulation.pyx":230
  * 
  * 
  *     cpdef gen_cell_indices(self):             # <<<<<<<<<<<<<<
@@ -4488,7 +5023,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_12ca_update_live(struct __pyx_ob
  *         cdef int y = 60
  */
 
-static PyObject *__pyx_pw_10simulation_7SimRand_15gen_cell_indices(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_21gen_cell_indices(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
   int __pyx_v_x;
   int __pyx_v_y;
@@ -4511,7 +5046,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gen_cell_indices", 0);
-  __Pyx_TraceCall("gen_cell_indices", __pyx_f[0], 214, 0, __PYX_ERR(0, 214, __pyx_L1_error));
+  __Pyx_TraceCall("gen_cell_indices", __pyx_f[0], 230, 0, __PYX_ERR(0, 230, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -4521,9 +5056,9 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gen_cell_indices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gen_cell_indices); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_15gen_cell_indices)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_21gen_cell_indices)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -4538,7 +5073,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 214, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -4559,7 +5094,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
     #endif
   }
 
-  /* "simulation.pyx":215
+  /* "simulation.pyx":231
  * 
  *     cpdef gen_cell_indices(self):
  *         cdef int x = 60             # <<<<<<<<<<<<<<
@@ -4568,7 +5103,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
  */
   __pyx_v_x = 60;
 
-  /* "simulation.pyx":216
+  /* "simulation.pyx":232
  *     cpdef gen_cell_indices(self):
  *         cdef int x = 60
  *         cdef int y = 60             # <<<<<<<<<<<<<<
@@ -4577,7 +5112,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
  */
   __pyx_v_y = 60;
 
-  /* "simulation.pyx":217
+  /* "simulation.pyx":233
  *         cdef int x = 60
  *         cdef int y = 60
  *         cdef int z = 60             # <<<<<<<<<<<<<<
@@ -4586,7 +5121,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
  */
   __pyx_v_z = 60;
 
-  /* "simulation.pyx":221
+  /* "simulation.pyx":237
  *         cdef vector[int] mirror_cell
  * 
  *         for x in range(60, 70):             # <<<<<<<<<<<<<<
@@ -4596,7 +5131,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
   for (__pyx_t_5 = 60; __pyx_t_5 < 70; __pyx_t_5+=1) {
     __pyx_v_x = __pyx_t_5;
 
-    /* "simulation.pyx":222
+    /* "simulation.pyx":238
  * 
  *         for x in range(60, 70):
  *             for y in range(60, 65):             # <<<<<<<<<<<<<<
@@ -4606,7 +5141,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
     for (__pyx_t_6 = 60; __pyx_t_6 < 65; __pyx_t_6+=1) {
       __pyx_v_y = __pyx_t_6;
 
-      /* "simulation.pyx":223
+      /* "simulation.pyx":239
  *         for x in range(60, 70):
  *             for y in range(60, 65):
  *                 for z in range(60,70):             # <<<<<<<<<<<<<<
@@ -4616,20 +5151,20 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
       for (__pyx_t_7 = 60; __pyx_t_7 < 70; __pyx_t_7+=1) {
         __pyx_v_z = __pyx_t_7;
 
-        /* "simulation.pyx":224
+        /* "simulation.pyx":240
  *             for y in range(60, 65):
  *                 for z in range(60,70):
  *                     reg_cell = [x, y, z]             # <<<<<<<<<<<<<<
  *                     if y == 64:
  *                         mirror_cell = [x, 65, z]
  */
-        __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 240, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_1);
         PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -4640,11 +5175,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
         __pyx_t_1 = 0;
         __pyx_t_2 = 0;
         __pyx_t_3 = 0;
-        __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 240, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __pyx_v_reg_cell = __pyx_t_8;
 
-        /* "simulation.pyx":225
+        /* "simulation.pyx":241
  *                 for z in range(60,70):
  *                     reg_cell = [x, y, z]
  *                     if y == 64:             # <<<<<<<<<<<<<<
@@ -4654,18 +5189,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
         switch (__pyx_v_y) {
           case 64:
 
-          /* "simulation.pyx":226
+          /* "simulation.pyx":242
  *                     reg_cell = [x, y, z]
  *                     if y == 64:
  *                         mirror_cell = [x, 65, z]             # <<<<<<<<<<<<<<
  *                     elif y == 63:
  *                         mirror_cell = [x, 66, z]
  */
-          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 242, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 226, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 242, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 226, __pyx_L1_error)
+          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 242, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GIVEREF(__pyx_t_4);
           PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
@@ -4676,11 +5211,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           PyList_SET_ITEM(__pyx_t_2, 2, __pyx_t_3);
           __pyx_t_4 = 0;
           __pyx_t_3 = 0;
-          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 226, __pyx_L1_error)
+          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_mirror_cell = __pyx_t_8;
 
-          /* "simulation.pyx":225
+          /* "simulation.pyx":241
  *                 for z in range(60,70):
  *                     reg_cell = [x, y, z]
  *                     if y == 64:             # <<<<<<<<<<<<<<
@@ -4690,18 +5225,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           break;
           case 63:
 
-          /* "simulation.pyx":228
+          /* "simulation.pyx":244
  *                         mirror_cell = [x, 65, z]
  *                     elif y == 63:
  *                         mirror_cell = [x, 66, z]             # <<<<<<<<<<<<<<
  *                     elif y == 62:
  *                         mirror_cell = [x, 67, z]
  */
-          __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 228, __pyx_L1_error)
+          __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 244, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_GIVEREF(__pyx_t_2);
           PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -4712,11 +5247,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           PyList_SET_ITEM(__pyx_t_4, 2, __pyx_t_3);
           __pyx_t_2 = 0;
           __pyx_t_3 = 0;
-          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 228, __pyx_L1_error)
+          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 244, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __pyx_v_mirror_cell = __pyx_t_8;
 
-          /* "simulation.pyx":227
+          /* "simulation.pyx":243
  *                     if y == 64:
  *                         mirror_cell = [x, 65, z]
  *                     elif y == 63:             # <<<<<<<<<<<<<<
@@ -4726,18 +5261,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           break;
           case 62:
 
-          /* "simulation.pyx":230
+          /* "simulation.pyx":246
  *                         mirror_cell = [x, 66, z]
  *                     elif y == 62:
  *                         mirror_cell = [x, 67, z]             # <<<<<<<<<<<<<<
  *                     elif y == 61:
  *                         mirror_cell = [x, 68, z]
  */
-          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 246, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
+          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 246, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GIVEREF(__pyx_t_4);
           PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
@@ -4748,11 +5283,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           PyList_SET_ITEM(__pyx_t_2, 2, __pyx_t_3);
           __pyx_t_4 = 0;
           __pyx_t_3 = 0;
-          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L1_error)
+          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 246, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_mirror_cell = __pyx_t_8;
 
-          /* "simulation.pyx":229
+          /* "simulation.pyx":245
  *                     elif y == 63:
  *                         mirror_cell = [x, 66, z]
  *                     elif y == 62:             # <<<<<<<<<<<<<<
@@ -4762,18 +5297,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           break;
           case 61:
 
-          /* "simulation.pyx":232
+          /* "simulation.pyx":248
  *                         mirror_cell = [x, 67, z]
  *                     elif y == 61:
  *                         mirror_cell = [x, 68, z]             # <<<<<<<<<<<<<<
  *                     else:
  *                         mirror_cell = [x, 69, z]
  */
-          __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 232, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 232, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 232, __pyx_L1_error)
+          __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_GIVEREF(__pyx_t_2);
           PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -4784,11 +5319,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           PyList_SET_ITEM(__pyx_t_4, 2, __pyx_t_3);
           __pyx_t_2 = 0;
           __pyx_t_3 = 0;
-          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 232, __pyx_L1_error)
+          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_4); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           __pyx_v_mirror_cell = __pyx_t_8;
 
-          /* "simulation.pyx":231
+          /* "simulation.pyx":247
  *                     elif y == 62:
  *                         mirror_cell = [x, 67, z]
  *                     elif y == 61:             # <<<<<<<<<<<<<<
@@ -4798,18 +5333,18 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           break;
           default:
 
-          /* "simulation.pyx":234
+          /* "simulation.pyx":250
  *                         mirror_cell = [x, 68, z]
  *                     else:
  *                         mirror_cell = [x, 69, z]             # <<<<<<<<<<<<<<
  * 
  *                     self.unmirrored_cells.push_back(reg_cell)
  */
-          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 250, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_z); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 250, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GIVEREF(__pyx_t_4);
           PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
@@ -4820,13 +5355,13 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           PyList_SET_ITEM(__pyx_t_2, 2, __pyx_t_3);
           __pyx_t_4 = 0;
           __pyx_t_3 = 0;
-          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_8 = __pyx_convert_vector_from_py_int(__pyx_t_2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 250, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_v_mirror_cell = __pyx_t_8;
           break;
         }
 
-        /* "simulation.pyx":236
+        /* "simulation.pyx":252
  *                         mirror_cell = [x, 69, z]
  * 
  *                     self.unmirrored_cells.push_back(reg_cell)             # <<<<<<<<<<<<<<
@@ -4837,10 +5372,10 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           __pyx_v_self->unmirrored_cells.push_back(__pyx_v_reg_cell);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 236, __pyx_L1_error)
+          __PYX_ERR(0, 252, __pyx_L1_error)
         }
 
-        /* "simulation.pyx":237
+        /* "simulation.pyx":253
  * 
  *                     self.unmirrored_cells.push_back(reg_cell)
  *                     self.mirror_cells.push_back(mirror_cell)             # <<<<<<<<<<<<<<
@@ -4851,26 +5386,26 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
           __pyx_v_self->mirror_cells.push_back(__pyx_v_mirror_cell);
         } catch(...) {
           __Pyx_CppExn2PyErr();
-          __PYX_ERR(0, 237, __pyx_L1_error)
+          __PYX_ERR(0, 253, __pyx_L1_error)
         }
       }
     }
   }
 
-  /* "simulation.pyx":239
+  /* "simulation.pyx":255
  *                     self.mirror_cells.push_back(mirror_cell)
  * 
  *         self.length_cell_list = len(self.unmirrored_cells)             # <<<<<<<<<<<<<<
  * 
  *     cpdef sym_rand_soup(self):
  */
-  __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_self->unmirrored_cells); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_int_3e___(__pyx_v_self->unmirrored_cells); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_9 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_9 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_9 == ((Py_ssize_t)-1))) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->length_cell_list = __pyx_t_9;
 
-  /* "simulation.pyx":214
+  /* "simulation.pyx":230
  * 
  * 
  *     cpdef gen_cell_indices(self):             # <<<<<<<<<<<<<<
@@ -4896,19 +5431,19 @@ static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_7SimRand_15gen_cell_indices(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_7SimRand_15gen_cell_indices(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_7SimRand_21gen_cell_indices(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_21gen_cell_indices(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("gen_cell_indices (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_7SimRand_14gen_cell_indices(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_7SimRand_20gen_cell_indices(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_7SimRand_14gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_7SimRand_20gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -4917,9 +5452,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_14gen_cell_indices(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gen_cell_indices", 0);
-  __Pyx_TraceCall("gen_cell_indices (wrapper)", __pyx_f[0], 214, 0, __PYX_ERR(0, 214, __pyx_L1_error));
+  __Pyx_TraceCall("gen_cell_indices (wrapper)", __pyx_f[0], 230, 0, __PYX_ERR(0, 230, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_gen_cell_indices(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_gen_cell_indices(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4937,7 +5472,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_14gen_cell_indices(struct __pyx_
   return __pyx_r;
 }
 
-/* "simulation.pyx":241
+/* "simulation.pyx":257
  *         self.length_cell_list = len(self.unmirrored_cells)
  * 
  *     cpdef sym_rand_soup(self):             # <<<<<<<<<<<<<<
@@ -4945,7 +5480,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_14gen_cell_indices(struct __pyx_
  *         # want 20 % density so 100 unmirrored cells + 100 mirrored cells
  */
 
-static PyObject *__pyx_pw_10simulation_7SimRand_17sym_rand_soup(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_23sym_rand_soup(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch) {
   std::mt19937 __pyx_v_gen;
   std::discrete_distribution<int>  __pyx_v_dd;
@@ -4972,7 +5507,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sym_rand_soup", 0);
-  __Pyx_TraceCall("sym_rand_soup", __pyx_f[0], 241, 0, __PYX_ERR(0, 241, __pyx_L1_error));
+  __Pyx_TraceCall("sym_rand_soup", __pyx_f[0], 257, 0, __PYX_ERR(0, 257, __pyx_L1_error));
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
@@ -4982,9 +5517,9 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_sym_rand_soup); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_sym_rand_soup); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_17sym_rand_soup)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_7SimRand_23sym_rand_soup)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -4999,7 +5534,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
         }
         __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 241, __pyx_L1_error)
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 257, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __pyx_r = __pyx_t_2;
@@ -5020,7 +5555,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
     #endif
   }
 
-  /* "simulation.pyx":245
+  /* "simulation.pyx":261
  *         # want 20 % density so 100 unmirrored cells + 100 mirrored cells
  *         # randomly select 100 numbers between 0 and len(self.unmirrored_cells)
  *         cdef mt19937 gen = mt19937(5)             # <<<<<<<<<<<<<<
@@ -5031,11 +5566,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
     __pyx_t_5 = std::mt19937(5);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 245, __pyx_L1_error)
+    __PYX_ERR(0, 261, __pyx_L1_error)
   }
   __pyx_v_gen = __pyx_t_5;
 
-  /* "simulation.pyx":246
+  /* "simulation.pyx":262
  *         # randomly select 100 numbers between 0 and len(self.unmirrored_cells)
  *         cdef mt19937 gen = mt19937(5)
  *         cdef discrete_distribution[int] dd = discrete_distribution[int](self.cell_addresses.begin(),self.cell_addresses.end())             # <<<<<<<<<<<<<<
@@ -5044,7 +5579,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_dd = std::discrete_distribution<int> (__pyx_v_self->cell_addresses.begin(), __pyx_v_self->cell_addresses.end());
 
-  /* "simulation.pyx":248
+  /* "simulation.pyx":264
  *         cdef discrete_distribution[int] dd = discrete_distribution[int](self.cell_addresses.begin(),self.cell_addresses.end())
  * 
  *         cdef int j = 0             # <<<<<<<<<<<<<<
@@ -5053,7 +5588,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_j = 0;
 
-  /* "simulation.pyx":249
+  /* "simulation.pyx":265
  * 
  *         cdef int j = 0
  *         cdef int addr = 0             # <<<<<<<<<<<<<<
@@ -5062,7 +5597,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_addr = 0;
 
-  /* "simulation.pyx":250
+  /* "simulation.pyx":266
  *         cdef int j = 0
  *         cdef int addr = 0
  *         cdef int k = 0             # <<<<<<<<<<<<<<
@@ -5071,7 +5606,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_k = 0;
 
-  /* "simulation.pyx":251
+  /* "simulation.pyx":267
  *         cdef int addr = 0
  *         cdef int k = 0
  *         cdef bint duplicate = False             # <<<<<<<<<<<<<<
@@ -5080,7 +5615,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_duplicate = 0;
 
-  /* "simulation.pyx":252
+  /* "simulation.pyx":268
  *         cdef int k = 0
  *         cdef bint duplicate = False
  *         for j in range(100):             # <<<<<<<<<<<<<<
@@ -5090,7 +5625,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
   for (__pyx_t_6 = 0; __pyx_t_6 < 0x64; __pyx_t_6+=1) {
     __pyx_v_j = __pyx_t_6;
 
-    /* "simulation.pyx":253
+    /* "simulation.pyx":269
  *         cdef bint duplicate = False
  *         for j in range(100):
  *             addr = dd(gen)             # <<<<<<<<<<<<<<
@@ -5099,7 +5634,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
     __pyx_v_addr = __pyx_v_dd(__pyx_v_gen);
 
-    /* "simulation.pyx":254
+    /* "simulation.pyx":270
  *         for j in range(100):
  *             addr = dd(gen)
  *             duplicate = False             # <<<<<<<<<<<<<<
@@ -5108,7 +5643,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
     __pyx_v_duplicate = 0;
 
-    /* "simulation.pyx":255
+    /* "simulation.pyx":271
  *             addr = dd(gen)
  *             duplicate = False
  *             for k in range(self.random_addr.size()):             # <<<<<<<<<<<<<<
@@ -5120,7 +5655,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
     for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
       __pyx_v_k = __pyx_t_9;
 
-      /* "simulation.pyx":256
+      /* "simulation.pyx":272
  *             duplicate = False
  *             for k in range(self.random_addr.size()):
  *                 if addr == self.random_addr[k]:             # <<<<<<<<<<<<<<
@@ -5130,7 +5665,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
       __pyx_t_10 = ((__pyx_v_addr == (__pyx_v_self->random_addr[__pyx_v_k])) != 0);
       if (__pyx_t_10) {
 
-        /* "simulation.pyx":257
+        /* "simulation.pyx":273
  *             for k in range(self.random_addr.size()):
  *                 if addr == self.random_addr[k]:
  *                     duplicate = True             # <<<<<<<<<<<<<<
@@ -5139,7 +5674,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
         __pyx_v_duplicate = 1;
 
-        /* "simulation.pyx":256
+        /* "simulation.pyx":272
  *             duplicate = False
  *             for k in range(self.random_addr.size()):
  *                 if addr == self.random_addr[k]:             # <<<<<<<<<<<<<<
@@ -5149,7 +5684,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
       }
     }
 
-    /* "simulation.pyx":259
+    /* "simulation.pyx":275
  *                     duplicate = True
  * 
  *             if not duplicate:             # <<<<<<<<<<<<<<
@@ -5159,7 +5694,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
     __pyx_t_10 = ((!(__pyx_v_duplicate != 0)) != 0);
     if (__pyx_t_10) {
 
-      /* "simulation.pyx":260
+      /* "simulation.pyx":276
  * 
  *             if not duplicate:
  *                 self.random_addr.push_back(dd(gen))             # <<<<<<<<<<<<<<
@@ -5170,10 +5705,10 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
         __pyx_v_self->random_addr.push_back(__pyx_v_dd(__pyx_v_gen));
       } catch(...) {
         __Pyx_CppExn2PyErr();
-        __PYX_ERR(0, 260, __pyx_L1_error)
+        __PYX_ERR(0, 276, __pyx_L1_error)
       }
 
-      /* "simulation.pyx":259
+      /* "simulation.pyx":275
  *                     duplicate = True
  * 
  *             if not duplicate:             # <<<<<<<<<<<<<<
@@ -5183,7 +5718,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
     }
   }
 
-  /* "simulation.pyx":262
+  /* "simulation.pyx":278
  *                 self.random_addr.push_back(dd(gen))
  * 
  *         cdef int i = 0             # <<<<<<<<<<<<<<
@@ -5192,7 +5727,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_i = 0;
 
-  /* "simulation.pyx":263
+  /* "simulation.pyx":279
  * 
  *         cdef int i = 0
  *         cdef int address = 0             # <<<<<<<<<<<<<<
@@ -5201,7 +5736,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
   __pyx_v_address = 0;
 
-  /* "simulation.pyx":264
+  /* "simulation.pyx":280
  *         cdef int i = 0
  *         cdef int address = 0
  *         for i in range(self.random_addr.size()):             # <<<<<<<<<<<<<<
@@ -5213,7 +5748,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_8; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "simulation.pyx":265
+    /* "simulation.pyx":281
  *         cdef int address = 0
  *         for i in range(self.random_addr.size()):
  *             address = self.random_addr[i]             # <<<<<<<<<<<<<<
@@ -5222,7 +5757,7 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
  */
     __pyx_v_address = (__pyx_v_self->random_addr[__pyx_v_i]);
 
-    /* "simulation.pyx":266
+    /* "simulation.pyx":282
  *         for i in range(self.random_addr.size()):
  *             address = self.random_addr[i]
  *             self.cellsToSimulate.push_back(self.unmirrored_cells[address])             # <<<<<<<<<<<<<<
@@ -5233,10 +5768,10 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
       __pyx_v_self->cellsToSimulate.push_back((__pyx_v_self->unmirrored_cells[__pyx_v_address]));
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 266, __pyx_L1_error)
+      __PYX_ERR(0, 282, __pyx_L1_error)
     }
 
-    /* "simulation.pyx":267
+    /* "simulation.pyx":283
  *             address = self.random_addr[i]
  *             self.cellsToSimulate.push_back(self.unmirrored_cells[address])
  *             self.cellsToSimulate.push_back(self.mirror_cells[address])             # <<<<<<<<<<<<<<
@@ -5247,11 +5782,11 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
       __pyx_v_self->cellsToSimulate.push_back((__pyx_v_self->mirror_cells[__pyx_v_address]));
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 267, __pyx_L1_error)
+      __PYX_ERR(0, 283, __pyx_L1_error)
     }
   }
 
-  /* "simulation.pyx":241
+  /* "simulation.pyx":257
  *         self.length_cell_list = len(self.unmirrored_cells)
  * 
  *     cpdef sym_rand_soup(self):             # <<<<<<<<<<<<<<
@@ -5277,19 +5812,19 @@ static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_7SimRand_17sym_rand_soup(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_7SimRand_17sym_rand_soup(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_7SimRand_23sym_rand_soup(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_23sym_rand_soup(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("sym_rand_soup (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_7SimRand_16sym_rand_soup(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_7SimRand_22sym_rand_soup(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_7SimRand_16sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_7SimRand_22sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5298,9 +5833,9 @@ static PyObject *__pyx_pf_10simulation_7SimRand_16sym_rand_soup(struct __pyx_obj
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sym_rand_soup", 0);
-  __Pyx_TraceCall("sym_rand_soup (wrapper)", __pyx_f[0], 241, 0, __PYX_ERR(0, 241, __pyx_L1_error));
+  __Pyx_TraceCall("sym_rand_soup (wrapper)", __pyx_f[0], 257, 0, __PYX_ERR(0, 257, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_7SimRand_sym_rand_soup(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_7SimRand_sym_rand_soup(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5325,19 +5860,19 @@ static PyObject *__pyx_pf_10simulation_7SimRand_16sym_rand_soup(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_7SimRand_19__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_7SimRand_19__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_7SimRand_25__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_25__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_7SimRand_18__reduce_cython__(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_7SimRand_24__reduce_cython__(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_7SimRand_18__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_7SimRand_24__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5385,19 +5920,19 @@ static PyObject *__pyx_pf_10simulation_7SimRand_18__reduce_cython__(CYTHON_UNUSE
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_7SimRand_21__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_10simulation_7SimRand_21__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_10simulation_7SimRand_27__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_10simulation_7SimRand_27__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_7SimRand_20__setstate_cython__(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_10simulation_7SimRand_26__setstate_cython__(((struct __pyx_obj_10simulation_SimRand *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_7SimRand_20__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10simulation_7SimRand_26__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5437,7 +5972,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_20__setstate_cython__(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "simulation.pyx":272
+/* "simulation.pyx":288
  * cdef class CaptureSim(SimRand):
  * 
  *     def __cinit__(self, rule_num, num_sims):             # <<<<<<<<<<<<<<
@@ -5479,11 +6014,11 @@ static int __pyx_pw_10simulation_10CaptureSim_1__cinit__(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_num_sims)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(0, 272, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(0, 288, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 272, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 288, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5496,7 +6031,7 @@ static int __pyx_pw_10simulation_10CaptureSim_1__cinit__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 272, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 288, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("simulation.CaptureSim.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5522,16 +6057,16 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
-  __Pyx_TraceCall("__cinit__", __pyx_f[0], 272, 0, __PYX_ERR(0, 272, __pyx_L1_error));
+  __Pyx_TraceCall("__cinit__", __pyx_f[0], 288, 0, __PYX_ERR(0, 288, __pyx_L1_error));
 
-  /* "simulation.pyx":273
+  /* "simulation.pyx":289
  * 
  *     def __cinit__(self, rule_num, num_sims):
  *         super(SimRand, self).__init__(rule_num, num_sims)             # <<<<<<<<<<<<<<
  * 
- * 
+ *     cpdef find_extreme_pattern(self):
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_10simulation_SimRand));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_10simulation_SimRand));
@@ -5539,10 +6074,10 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -5560,7 +6095,7 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_rule_num, __pyx_v_num_sims};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -5568,13 +6103,13 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_rule_num, __pyx_v_num_sims};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 273, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -5585,14 +6120,14 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
     __Pyx_INCREF(__pyx_v_num_sims);
     __Pyx_GIVEREF(__pyx_v_num_sims);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_v_num_sims);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "simulation.pyx":272
+  /* "simulation.pyx":288
  * cdef class CaptureSim(SimRand):
  * 
  *     def __cinit__(self, rule_num, num_sims):             # <<<<<<<<<<<<<<
@@ -5616,6 +6151,506 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   return __pyx_r;
 }
 
+/* "simulation.pyx":291
+ *         super(SimRand, self).__init__(rule_num, num_sims)
+ * 
+ *     cpdef find_extreme_pattern(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+static PyObject *__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_extreme_pattern", 0);
+  __Pyx_TraceCall("find_extreme_pattern", __pyx_f[0], 291, 0, __PYX_ERR(0, 291, __pyx_L1_error));
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_find_extreme_pattern); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 291, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "simulation.pyx":292
+ * 
+ *     cpdef find_extreme_pattern(self):
+ *         pass             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef charac_glider(self):
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("simulation.CaptureSim.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":291
+ *         super(SimRand, self).__init__(rule_num, num_sims)
+ * 
+ *     cpdef find_extreme_pattern(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("find_extreme_pattern (wrapper)", 0);
+  __pyx_r = __pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("find_extreme_pattern", 0);
+  __Pyx_TraceCall("find_extreme_pattern (wrapper)", __pyx_f[0], 291, 0, __PYX_ERR(0, 291, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_10simulation_10CaptureSim_find_extreme_pattern(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("simulation.CaptureSim.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":294
+ *         pass
+ * 
+ *     cpdef charac_glider(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+static PyObject *__pyx_pw_10simulation_10CaptureSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("charac_glider", 0);
+  __Pyx_TraceCall("charac_glider", __pyx_f[0], 294, 0, __PYX_ERR(0, 294, __pyx_L1_error));
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_charac_glider); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_10CaptureSim_5charac_glider)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 294, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "simulation.pyx":295
+ * 
+ *     cpdef charac_glider(self):
+ *         pass             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef end_condition(self):
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("simulation.CaptureSim.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":294
+ *         pass
+ * 
+ *     cpdef charac_glider(self):             # <<<<<<<<<<<<<<
+ *         pass
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10simulation_10CaptureSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_10CaptureSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("charac_glider (wrapper)", 0);
+  __pyx_r = __pyx_pf_10simulation_10CaptureSim_4charac_glider(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("charac_glider", 0);
+  __Pyx_TraceCall("charac_glider (wrapper)", __pyx_f[0], 294, 0, __PYX_ERR(0, 294, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_10simulation_10CaptureSim_charac_glider(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("simulation.CaptureSim.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "simulation.pyx":297
+ *         pass
+ * 
+ *     cpdef end_condition(self):             # <<<<<<<<<<<<<<
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True
+ */
+
+static PyObject *__pyx_pw_10simulation_10CaptureSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("end_condition", 0);
+  __Pyx_TraceCall("end_condition", __pyx_f[0], 297, 0, __PYX_ERR(0, 297, __pyx_L1_error));
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely((Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0) || (Py_TYPE(((PyObject *)__pyx_v_self))->tp_flags & (Py_TPFLAGS_IS_ABSTRACT | Py_TPFLAGS_HEAPTYPE)))) {
+    #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    static PY_UINT64_T __pyx_tp_dict_version = __PYX_DICT_VERSION_INIT, __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+    if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
+      PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      #endif
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_end_condition); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_10CaptureSim_7end_condition)) {
+        __Pyx_XDECREF(__pyx_r);
+        __Pyx_INCREF(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+          if (likely(__pyx_t_4)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+            __Pyx_INCREF(__pyx_t_4);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_3, function);
+          }
+        }
+        __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 297, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        goto __pyx_L0;
+      }
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+      __pyx_tp_dict_version = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
+      __pyx_obj_dict_version = __Pyx_get_object_dict_version(((PyObject *)__pyx_v_self));
+      if (unlikely(__pyx_type_dict_guard != __pyx_tp_dict_version)) {
+        __pyx_tp_dict_version = __pyx_obj_dict_version = __PYX_DICT_VERSION_INIT;
+      }
+      #endif
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_PYTYPE_LOOKUP && CYTHON_USE_TYPE_SLOTS
+    }
+    #endif
+  }
+
+  /* "simulation.pyx":298
+ * 
+ *     cpdef end_condition(self):
+ *         if self.numLiveCells == 0:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+  __pyx_t_5 = ((__pyx_v_self->__pyx_base.numLiveCells == 0) != 0);
+  if (__pyx_t_5) {
+
+    /* "simulation.pyx":299
+ *     cpdef end_condition(self):
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True             # <<<<<<<<<<<<<<
+ *             self.endCondition = True
+ *         elif self.generation == 15:
+ */
+    __pyx_v_self->__pyx_base.allDead = 1;
+
+    /* "simulation.pyx":300
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True
+ *             self.endCondition = True             # <<<<<<<<<<<<<<
+ *         elif self.generation == 15:
+ *             self.allDead = True
+ */
+    __pyx_v_self->__pyx_base.endCondition = 1;
+
+    /* "simulation.pyx":298
+ * 
+ *     cpdef end_condition(self):
+ *         if self.numLiveCells == 0:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+    goto __pyx_L3;
+  }
+
+  /* "simulation.pyx":301
+ *             self.allDead = True
+ *             self.endCondition = True
+ *         elif self.generation == 15:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+  __pyx_t_5 = ((__pyx_v_self->__pyx_base.generation == 15) != 0);
+  if (__pyx_t_5) {
+
+    /* "simulation.pyx":302
+ *             self.endCondition = True
+ *         elif self.generation == 15:
+ *             self.allDead = True             # <<<<<<<<<<<<<<
+ *             self.endCondition = True
+ * 
+ */
+    __pyx_v_self->__pyx_base.allDead = 1;
+
+    /* "simulation.pyx":303
+ *         elif self.generation == 15:
+ *             self.allDead = True
+ *             self.endCondition = True             # <<<<<<<<<<<<<<
+ * 
+ */
+    __pyx_v_self->__pyx_base.endCondition = 1;
+
+    /* "simulation.pyx":301
+ *             self.allDead = True
+ *             self.endCondition = True
+ *         elif self.generation == 15:             # <<<<<<<<<<<<<<
+ *             self.allDead = True
+ *             self.endCondition = True
+ */
+  }
+  __pyx_L3:;
+
+  /* "simulation.pyx":297
+ *         pass
+ * 
+ *     cpdef end_condition(self):             # <<<<<<<<<<<<<<
+ *         if self.numLiveCells == 0:
+ *             self.allDead = True
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("simulation.CaptureSim.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_10simulation_10CaptureSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_10CaptureSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("end_condition (wrapper)", 0);
+  __pyx_r = __pyx_pf_10simulation_10CaptureSim_6end_condition(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_TraceDeclarations
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("end_condition", 0);
+  __Pyx_TraceCall("end_condition (wrapper)", __pyx_f[0], 297, 0, __PYX_ERR(0, 297, __pyx_L1_error));
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_10simulation_10CaptureSim_end_condition(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("simulation.CaptureSim.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_TraceReturn(__pyx_r, 0);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
@@ -5623,19 +6658,19 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_3__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_10CaptureSim_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_10CaptureSim_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_2__reduce_cython__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_2__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -5683,19 +6718,19 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_2__reduce_cython__(CYTHON_UN
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_5__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_10simulation_10CaptureSim_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_10simulation_10CaptureSim_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_4__setstate_cython__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_4__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6169,12 +7204,15 @@ static PyMethodDef __pyx_methods_10simulation_SimRand[] = {
   {"parse_rule", (PyCFunction)__pyx_pw_10simulation_7SimRand_5parse_rule, METH_O, 0},
   {"ca_beg_to_end", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_10simulation_7SimRand_7ca_beg_to_end, METH_VARARGS|METH_KEYWORDS, 0},
   {"ca_loop_logic", (PyCFunction)__pyx_pw_10simulation_7SimRand_9ca_loop_logic, METH_O, 0},
-  {"ca_count_neigh", (PyCFunction)__pyx_pw_10simulation_7SimRand_11ca_count_neigh, METH_NOARGS, 0},
-  {"ca_update_live", (PyCFunction)__pyx_pw_10simulation_7SimRand_13ca_update_live, METH_NOARGS, 0},
-  {"gen_cell_indices", (PyCFunction)__pyx_pw_10simulation_7SimRand_15gen_cell_indices, METH_NOARGS, 0},
-  {"sym_rand_soup", (PyCFunction)__pyx_pw_10simulation_7SimRand_17sym_rand_soup, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_10simulation_7SimRand_19__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_10simulation_7SimRand_21__setstate_cython__, METH_O, 0},
+  {"find_extreme_pattern", (PyCFunction)__pyx_pw_10simulation_7SimRand_11find_extreme_pattern, METH_NOARGS, 0},
+  {"charac_glider", (PyCFunction)__pyx_pw_10simulation_7SimRand_13charac_glider, METH_NOARGS, 0},
+  {"end_condition", (PyCFunction)__pyx_pw_10simulation_7SimRand_15end_condition, METH_NOARGS, 0},
+  {"ca_count_neigh", (PyCFunction)__pyx_pw_10simulation_7SimRand_17ca_count_neigh, METH_NOARGS, 0},
+  {"ca_update_live", (PyCFunction)__pyx_pw_10simulation_7SimRand_19ca_update_live, METH_NOARGS, 0},
+  {"gen_cell_indices", (PyCFunction)__pyx_pw_10simulation_7SimRand_21gen_cell_indices, METH_NOARGS, 0},
+  {"sym_rand_soup", (PyCFunction)__pyx_pw_10simulation_7SimRand_23sym_rand_soup, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_10simulation_7SimRand_25__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_10simulation_7SimRand_27__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -6265,8 +7303,11 @@ static PyObject *__pyx_tp_new_10simulation_CaptureSim(PyTypeObject *t, PyObject 
 }
 
 static PyMethodDef __pyx_methods_10simulation_CaptureSim[] = {
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_3__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_5__setstate_cython__, METH_O, 0},
+  {"find_extreme_pattern", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern, METH_NOARGS, 0},
+  {"charac_glider", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_5charac_glider, METH_NOARGS, 0},
+  {"end_condition", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_7end_condition, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_9__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_11__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -6396,10 +7437,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ca_count_neigh, __pyx_k_ca_count_neigh, sizeof(__pyx_k_ca_count_neigh), 0, 0, 1, 1},
   {&__pyx_n_s_ca_loop_logic, __pyx_k_ca_loop_logic, sizeof(__pyx_k_ca_loop_logic), 0, 0, 1, 1},
   {&__pyx_n_s_ca_update_live, __pyx_k_ca_update_live, sizeof(__pyx_k_ca_update_live), 0, 0, 1, 1},
+  {&__pyx_n_s_charac_glider, __pyx_k_charac_glider, sizeof(__pyx_k_charac_glider), 0, 0, 1, 1},
   {&__pyx_n_s_characterize, __pyx_k_characterize, sizeof(__pyx_k_characterize), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
+  {&__pyx_n_s_end_condition, __pyx_k_end_condition, sizeof(__pyx_k_end_condition), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_find_extreme_pattern, __pyx_k_find_extreme_pattern, sizeof(__pyx_k_find_extreme_pattern), 0, 0, 1, 1},
   {&__pyx_n_s_gen_cell_indices, __pyx_k_gen_cell_indices, sizeof(__pyx_k_gen_cell_indices), 0, 0, 1, 1},
   {&__pyx_n_s_getstate, __pyx_k_getstate, sizeof(__pyx_k_getstate), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
@@ -6425,9 +7469,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 57, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 273, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 289, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -6547,6 +7591,9 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_10simulation_SimRand.parse_rule = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, PyObject *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_parse_rule;
   __pyx_vtable_10simulation_SimRand.ca_beg_to_end = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_10simulation_7SimRand_ca_beg_to_end *__pyx_optional_args))__pyx_f_10simulation_7SimRand_ca_beg_to_end;
   __pyx_vtable_10simulation_SimRand.ca_loop_logic = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, PyObject *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_ca_loop_logic;
+  __pyx_vtable_10simulation_SimRand.find_extreme_pattern = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_find_extreme_pattern;
+  __pyx_vtable_10simulation_SimRand.charac_glider = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_charac_glider;
+  __pyx_vtable_10simulation_SimRand.end_condition = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_end_condition;
   __pyx_vtable_10simulation_SimRand.ca_count_neigh = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_ca_count_neigh;
   __pyx_vtable_10simulation_SimRand.ca_update_live = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_ca_update_live;
   __pyx_vtable_10simulation_SimRand.gen_cell_indices = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_7SimRand_gen_cell_indices;
@@ -6564,17 +7611,20 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_ptype_10simulation_SimRand = &__pyx_type_10simulation_SimRand;
   __pyx_vtabptr_10simulation_CaptureSim = &__pyx_vtable_10simulation_CaptureSim;
   __pyx_vtable_10simulation_CaptureSim.__pyx_base = *__pyx_vtabptr_10simulation_SimRand;
+  __pyx_vtable_10simulation_CaptureSim.__pyx_base.find_extreme_pattern = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_10CaptureSim_find_extreme_pattern;
+  __pyx_vtable_10simulation_CaptureSim.__pyx_base.charac_glider = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_10CaptureSim_charac_glider;
+  __pyx_vtable_10simulation_CaptureSim.__pyx_base.end_condition = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_10CaptureSim_end_condition;
   __pyx_type_10simulation_CaptureSim.tp_base = __pyx_ptype_10simulation_SimRand;
-  if (PyType_Ready(&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_10simulation_CaptureSim.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10simulation_CaptureSim.tp_dictoffset && __pyx_type_10simulation_CaptureSim.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10simulation_CaptureSim.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_10simulation_CaptureSim.tp_dict, __pyx_vtabptr_10simulation_CaptureSim) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_CaptureSim, (PyObject *)&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 270, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_10simulation_CaptureSim.tp_dict, __pyx_vtabptr_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_CaptureSim, (PyObject *)&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
   __pyx_ptype_10simulation_CaptureSim = &__pyx_type_10simulation_CaptureSim;
   __Pyx_RefNannyFinishContext();
   return 0;
