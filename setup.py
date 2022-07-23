@@ -6,7 +6,7 @@ ext_modules=[
     Extension(
       'simulation',
       ['simulation.pyx'],
-      extra_compile_args=['/Os'],
+      extra_compile_args=['/O3'],
       language='c++'
     )
 ]
