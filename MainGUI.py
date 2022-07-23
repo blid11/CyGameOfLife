@@ -3,7 +3,7 @@ from simulation import *
 import cProfile, pstats
 
 def test_run_sim(rule, num_sims): 
-     sim = CaptureSim(rule, num_sims)
+     sim = AdvSim(rule, num_sims)
 
 # test_run_sim(8, 2000)
 

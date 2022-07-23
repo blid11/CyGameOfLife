@@ -5,7 +5,7 @@
     "distutils": {
         "depends": [],
         "extra_compile_args": [
-            "/Os"
+            "/O3"
         ],
         "language": "c++",
         "name": "simulation",
@@ -948,7 +948,7 @@ static const char *__pyx_f[] = {
 
 /*--- Type declarations ---*/
 struct __pyx_obj_10simulation_SimRand;
-struct __pyx_obj_10simulation_CaptureSim;
+struct __pyx_obj_10simulation_AdvSim;
 struct __pyx_opt_args_10simulation_7SimRand_ca_beg_to_end;
 
 /* "simulation.pyx":101
@@ -1001,11 +1001,11 @@ struct __pyx_obj_10simulation_SimRand {
 /* "simulation.pyx":286
  * 
  * 
- * cdef class CaptureSim(SimRand):             # <<<<<<<<<<<<<<
+ * cdef class AdvSim(SimRand):             # <<<<<<<<<<<<<<
  * 
  *     def __cinit__(self, rule_num, num_sims):
  */
-struct __pyx_obj_10simulation_CaptureSim {
+struct __pyx_obj_10simulation_AdvSim {
   struct __pyx_obj_10simulation_SimRand __pyx_base;
 };
 
@@ -1038,15 +1038,15 @@ static struct __pyx_vtabstruct_10simulation_SimRand *__pyx_vtabptr_10simulation_
 /* "simulation.pyx":286
  * 
  * 
- * cdef class CaptureSim(SimRand):             # <<<<<<<<<<<<<<
+ * cdef class AdvSim(SimRand):             # <<<<<<<<<<<<<<
  * 
  *     def __cinit__(self, rule_num, num_sims):
  */
 
-struct __pyx_vtabstruct_10simulation_CaptureSim {
+struct __pyx_vtabstruct_10simulation_AdvSim {
   struct __pyx_vtabstruct_10simulation_SimRand __pyx_base;
 };
-static struct __pyx_vtabstruct_10simulation_CaptureSim *__pyx_vtabptr_10simulation_CaptureSim;
+static struct __pyx_vtabstruct_10simulation_AdvSim *__pyx_vtabptr_10simulation_AdvSim;
 
 /* --- Runtime support code (head) --- */
 /* Refnanny.proto */
@@ -1694,9 +1694,9 @@ static PyObject *__pyx_f_10simulation_7SimRand_ca_count_neigh(struct __pyx_obj_1
 static PyObject *__pyx_f_10simulation_7SimRand_ca_update_live(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_gen_cell_indices(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_10simulation_7SimRand_sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
-static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
-static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
-static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_6AdvSim_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_6AdvSim_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
+static PyObject *__pyx_f_10simulation_6AdvSim_end_condition(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 
 /* Module declarations from 'libcpp.vector' */
 
@@ -1706,7 +1706,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_ob
 
 /* Module declarations from 'simulation' */
 static PyTypeObject *__pyx_ptype_10simulation_SimRand = 0;
-static PyTypeObject *__pyx_ptype_10simulation_CaptureSim = 0;
+static PyTypeObject *__pyx_ptype_10simulation_AdvSim = 0;
 static std::vector<int>  __pyx_convert_vector_from_py_int(PyObject *); /*proto*/
 static std::vector<std::vector<int> >  __pyx_convert_vector_from_py_std_3a__3a_vector_3c_int_3e___(PyObject *); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_int(const std::vector<int>  &); /*proto*/
@@ -1730,6 +1730,7 @@ static const char __pyx_k_print[] = "print";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_reset[] = "reset";
 static const char __pyx_k_super[] = "super";
+static const char __pyx_k_AdvSim[] = "AdvSim";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_SimRand[] = "SimRand";
 static const char __pyx_k_getstate[] = "__getstate__";
@@ -1738,7 +1739,6 @@ static const char __pyx_k_rule_num[] = "rule_num";
 static const char __pyx_k_setstate[] = "__setstate__";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
-static const char __pyx_k_CaptureSim[] = "CaptureSim";
 static const char __pyx_k_parse_rule[] = "parse_rule";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_characterize[] = "characterize";
@@ -1756,7 +1756,7 @@ static const char __pyx_k_Simulation_number[] = "Simulation number ";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_find_extreme_pattern[] = "find_extreme_pattern";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
-static PyObject *__pyx_n_s_CaptureSim;
+static PyObject *__pyx_n_s_AdvSim;
 static PyObject *__pyx_n_s_SimRand;
 static PyObject *__pyx_kp_u_Simulation_number;
 static PyObject *__pyx_n_s_TypeError;
@@ -1807,14 +1807,14 @@ static PyObject *__pyx_pf_10simulation_7SimRand_20gen_cell_indices(struct __pyx_
 static PyObject *__pyx_pf_10simulation_7SimRand_22sym_rand_soup(struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10simulation_7SimRand_24__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10simulation_7SimRand_26__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_SimRand *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
-static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, PyObject *__pyx_v_rule_num, PyObject *__pyx_v_num_sims); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
+static int __pyx_pf_10simulation_6AdvSim___cinit__(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, PyObject *__pyx_v_rule_num, PyObject *__pyx_v_num_sims); /* proto */
+static PyObject *__pyx_pf_10simulation_6AdvSim_2find_extreme_pattern(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_6AdvSim_4charac_glider(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_6AdvSim_6end_condition(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_6AdvSim_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_10simulation_6AdvSim_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_10simulation_SimRand(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_10simulation_CaptureSim(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_10simulation_AdvSim(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_2;
 static PyObject *__pyx_int_3;
@@ -5950,7 +5950,7 @@ static PyObject *__pyx_pf_10simulation_7SimRand_26__setstate_cython__(CYTHON_UNU
 }
 
 /* "simulation.pyx":288
- * cdef class CaptureSim(SimRand):
+ * cdef class AdvSim(SimRand):
  * 
  *     def __cinit__(self, rule_num, num_sims):             # <<<<<<<<<<<<<<
  *         super(SimRand, self).__init__(rule_num, num_sims)
@@ -5958,8 +5958,8 @@ static PyObject *__pyx_pf_10simulation_7SimRand_26__setstate_cython__(CYTHON_UNU
  */
 
 /* Python wrapper */
-static int __pyx_pw_10simulation_10CaptureSim_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_10simulation_10CaptureSim_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_10simulation_6AdvSim_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_10simulation_6AdvSim_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_rule_num = 0;
   PyObject *__pyx_v_num_sims = 0;
   int __pyx_lineno = 0;
@@ -6010,18 +6010,18 @@ static int __pyx_pw_10simulation_10CaptureSim_1__cinit__(PyObject *__pyx_v_self,
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 288, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("simulation.CaptureSim.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim___cinit__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self), __pyx_v_rule_num, __pyx_v_num_sims);
+  __pyx_r = __pyx_pf_10simulation_6AdvSim___cinit__(((struct __pyx_obj_10simulation_AdvSim *)__pyx_v_self), __pyx_v_rule_num, __pyx_v_num_sims);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, PyObject *__pyx_v_rule_num, PyObject *__pyx_v_num_sims) {
+static int __pyx_pf_10simulation_6AdvSim___cinit__(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, PyObject *__pyx_v_rule_num, PyObject *__pyx_v_num_sims) {
   int __pyx_r;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6105,7 +6105,7 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "simulation.pyx":288
- * cdef class CaptureSim(SimRand):
+ * cdef class AdvSim(SimRand):
  * 
  *     def __cinit__(self, rule_num, num_sims):             # <<<<<<<<<<<<<<
  *         super(SimRand, self).__init__(rule_num, num_sims)
@@ -6120,7 +6120,7 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("simulation.CaptureSim.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_TraceReturn(Py_None, 0);
@@ -6136,8 +6136,8 @@ static int __pyx_pf_10simulation_10CaptureSim___cinit__(struct __pyx_obj_10simul
  * 
  */
 
-static PyObject *__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_6AdvSim_find_extreme_pattern(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6161,7 +6161,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_U
       #endif
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_find_extreme_pattern); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_6AdvSim_3find_extreme_pattern)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -6213,7 +6213,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_U
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("simulation.CaptureSim.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6231,19 +6231,19 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_find_extreme_pattern(CYTHON_U
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_6AdvSim_3find_extreme_pattern(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("find_extreme_pattern (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_6AdvSim_2find_extreme_pattern(((struct __pyx_obj_10simulation_AdvSim *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_6AdvSim_2find_extreme_pattern(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6254,7 +6254,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct
   __Pyx_RefNannySetupContext("find_extreme_pattern", 0);
   __Pyx_TraceCall("find_extreme_pattern (wrapper)", __pyx_f[0], 291, 0, __PYX_ERR(0, 291, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_10CaptureSim_find_extreme_pattern(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_6AdvSim_find_extreme_pattern(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6263,7 +6263,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("simulation.CaptureSim.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.find_extreme_pattern", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6280,8 +6280,8 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_2find_extreme_pattern(struct
  * 
  */
 
-static PyObject *__pyx_pw_10simulation_10CaptureSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_6AdvSim_charac_glider(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6305,7 +6305,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED s
       #endif
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_charac_glider); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_10CaptureSim_5charac_glider)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_6AdvSim_5charac_glider)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -6357,7 +6357,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED s
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("simulation.CaptureSim.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6375,19 +6375,19 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_charac_glider(CYTHON_UNUSED s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_6AdvSim_5charac_glider(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("charac_glider (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_4charac_glider(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_6AdvSim_4charac_glider(((struct __pyx_obj_10simulation_AdvSim *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_6AdvSim_4charac_glider(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6398,7 +6398,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_
   __Pyx_RefNannySetupContext("charac_glider", 0);
   __Pyx_TraceCall("charac_glider (wrapper)", __pyx_f[0], 294, 0, __PYX_ERR(0, 294, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_10CaptureSim_charac_glider(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_6AdvSim_charac_glider(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6407,7 +6407,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("simulation.CaptureSim.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.charac_glider", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6424,8 +6424,8 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_4charac_glider(struct __pyx_
  *             self.allDead = True
  */
 
-static PyObject *__pyx_pw_10simulation_10CaptureSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_f_10simulation_6AdvSim_end_condition(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6450,7 +6450,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_ob
       #endif
       __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_end_condition); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_10CaptureSim_7end_condition)) {
+      if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_10simulation_6AdvSim_7end_condition)) {
         __Pyx_XDECREF(__pyx_r);
         __Pyx_INCREF(__pyx_t_1);
         __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -6577,7 +6577,7 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_ob
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("simulation.CaptureSim.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6587,19 +6587,19 @@ static PyObject *__pyx_f_10simulation_10CaptureSim_end_condition(struct __pyx_ob
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_6AdvSim_7end_condition(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("end_condition (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_6end_condition(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_6AdvSim_6end_condition(((struct __pyx_obj_10simulation_AdvSim *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_6AdvSim_6end_condition(struct __pyx_obj_10simulation_AdvSim *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6610,7 +6610,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_
   __Pyx_RefNannySetupContext("end_condition", 0);
   __Pyx_TraceCall("end_condition (wrapper)", __pyx_f[0], 297, 0, __PYX_ERR(0, 297, __pyx_L1_error));
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10simulation_10CaptureSim_end_condition(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10simulation_6AdvSim_end_condition(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 297, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6619,7 +6619,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("simulation.CaptureSim.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.end_condition", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6635,19 +6635,19 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_6end_condition(struct __pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_10simulation_6AdvSim_9__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self));
+  __pyx_r = __pyx_pf_10simulation_6AdvSim_8__reduce_cython__(((struct __pyx_obj_10simulation_AdvSim *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self) {
+static PyObject *__pyx_pf_10simulation_6AdvSim_8__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6679,7 +6679,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(CYTHON_UN
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("simulation.CaptureSim.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.__reduce_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_TraceReturn(__pyx_r, 0);
@@ -6695,19 +6695,19 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_8__reduce_cython__(CYTHON_UN
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_10simulation_10CaptureSim_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_10simulation_10CaptureSim_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_10simulation_6AdvSim_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_10simulation_6AdvSim_11__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(((struct __pyx_obj_10simulation_CaptureSim *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_10simulation_6AdvSim_10__setstate_cython__(((struct __pyx_obj_10simulation_AdvSim *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_CaptureSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_10simulation_6AdvSim_10__setstate_cython__(CYTHON_UNUSED struct __pyx_obj_10simulation_AdvSim *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
@@ -6739,7 +6739,7 @@ static PyObject *__pyx_pf_10simulation_10CaptureSim_10__setstate_cython__(CYTHON
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("simulation.CaptureSim.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("simulation.AdvSim.__setstate_cython__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_TraceReturn(__pyx_r, 0);
@@ -7264,34 +7264,34 @@ static PyTypeObject __pyx_type_10simulation_SimRand = {
   0, /*tp_pypy_flags*/
   #endif
 };
-static struct __pyx_vtabstruct_10simulation_CaptureSim __pyx_vtable_10simulation_CaptureSim;
+static struct __pyx_vtabstruct_10simulation_AdvSim __pyx_vtable_10simulation_AdvSim;
 
-static PyObject *__pyx_tp_new_10simulation_CaptureSim(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_10simulation_CaptureSim *p;
+static PyObject *__pyx_tp_new_10simulation_AdvSim(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_10simulation_AdvSim *p;
   PyObject *o = __pyx_tp_new_10simulation_SimRand(t, a, k);
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_10simulation_CaptureSim *)o);
-  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_10simulation_SimRand*)__pyx_vtabptr_10simulation_CaptureSim;
-  if (unlikely(__pyx_pw_10simulation_10CaptureSim_1__cinit__(o, a, k) < 0)) goto bad;
+  p = ((struct __pyx_obj_10simulation_AdvSim *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_10simulation_SimRand*)__pyx_vtabptr_10simulation_AdvSim;
+  if (unlikely(__pyx_pw_10simulation_6AdvSim_1__cinit__(o, a, k) < 0)) goto bad;
   return o;
   bad:
   Py_DECREF(o); o = 0;
   return NULL;
 }
 
-static PyMethodDef __pyx_methods_10simulation_CaptureSim[] = {
-  {"find_extreme_pattern", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_3find_extreme_pattern, METH_NOARGS, 0},
-  {"charac_glider", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_5charac_glider, METH_NOARGS, 0},
-  {"end_condition", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_7end_condition, METH_NOARGS, 0},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_9__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_10simulation_10CaptureSim_11__setstate_cython__, METH_O, 0},
+static PyMethodDef __pyx_methods_10simulation_AdvSim[] = {
+  {"find_extreme_pattern", (PyCFunction)__pyx_pw_10simulation_6AdvSim_3find_extreme_pattern, METH_NOARGS, 0},
+  {"charac_glider", (PyCFunction)__pyx_pw_10simulation_6AdvSim_5charac_glider, METH_NOARGS, 0},
+  {"end_condition", (PyCFunction)__pyx_pw_10simulation_6AdvSim_7end_condition, METH_NOARGS, 0},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_10simulation_6AdvSim_9__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_10simulation_6AdvSim_11__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_10simulation_CaptureSim = {
+static PyTypeObject __pyx_type_10simulation_AdvSim = {
   PyVarObject_HEAD_INIT(0, 0)
-  "simulation.CaptureSim", /*tp_name*/
-  sizeof(struct __pyx_obj_10simulation_CaptureSim), /*tp_basicsize*/
+  "simulation.AdvSim", /*tp_name*/
+  sizeof(struct __pyx_obj_10simulation_AdvSim), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_10simulation_SimRand, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
@@ -7326,7 +7326,7 @@ static PyTypeObject __pyx_type_10simulation_CaptureSim = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_10simulation_CaptureSim, /*tp_methods*/
+  __pyx_methods_10simulation_AdvSim, /*tp_methods*/
   0, /*tp_members*/
   0, /*tp_getset*/
   0, /*tp_base*/
@@ -7336,7 +7336,7 @@ static PyTypeObject __pyx_type_10simulation_CaptureSim = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_10simulation_CaptureSim, /*tp_new*/
+  __pyx_tp_new_10simulation_AdvSim, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -7406,7 +7406,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_CaptureSim, __pyx_k_CaptureSim, sizeof(__pyx_k_CaptureSim), 0, 0, 1, 1},
+  {&__pyx_n_s_AdvSim, __pyx_k_AdvSim, sizeof(__pyx_k_AdvSim), 0, 0, 1, 1},
   {&__pyx_n_s_SimRand, __pyx_k_SimRand, sizeof(__pyx_k_SimRand), 0, 0, 1, 1},
   {&__pyx_kp_u_Simulation_number, __pyx_k_Simulation_number, sizeof(__pyx_k_Simulation_number), 0, 1, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
@@ -7586,23 +7586,23 @@ static int __Pyx_modinit_type_init_code(void) {
   if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SimRand, (PyObject *)&__pyx_type_10simulation_SimRand) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10simulation_SimRand) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
   __pyx_ptype_10simulation_SimRand = &__pyx_type_10simulation_SimRand;
-  __pyx_vtabptr_10simulation_CaptureSim = &__pyx_vtable_10simulation_CaptureSim;
-  __pyx_vtable_10simulation_CaptureSim.__pyx_base = *__pyx_vtabptr_10simulation_SimRand;
-  __pyx_vtable_10simulation_CaptureSim.__pyx_base.find_extreme_pattern = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_10CaptureSim_find_extreme_pattern;
-  __pyx_vtable_10simulation_CaptureSim.__pyx_base.charac_glider = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_10CaptureSim_charac_glider;
-  __pyx_vtable_10simulation_CaptureSim.__pyx_base.end_condition = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_10CaptureSim_end_condition;
-  __pyx_type_10simulation_CaptureSim.tp_base = __pyx_ptype_10simulation_SimRand;
-  if (PyType_Ready(&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_vtabptr_10simulation_AdvSim = &__pyx_vtable_10simulation_AdvSim;
+  __pyx_vtable_10simulation_AdvSim.__pyx_base = *__pyx_vtabptr_10simulation_SimRand;
+  __pyx_vtable_10simulation_AdvSim.__pyx_base.find_extreme_pattern = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_6AdvSim_find_extreme_pattern;
+  __pyx_vtable_10simulation_AdvSim.__pyx_base.charac_glider = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_6AdvSim_charac_glider;
+  __pyx_vtable_10simulation_AdvSim.__pyx_base.end_condition = (PyObject *(*)(struct __pyx_obj_10simulation_SimRand *, int __pyx_skip_dispatch))__pyx_f_10simulation_6AdvSim_end_condition;
+  __pyx_type_10simulation_AdvSim.tp_base = __pyx_ptype_10simulation_SimRand;
+  if (PyType_Ready(&__pyx_type_10simulation_AdvSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_10simulation_CaptureSim.tp_print = 0;
+  __pyx_type_10simulation_AdvSim.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10simulation_CaptureSim.tp_dictoffset && __pyx_type_10simulation_CaptureSim.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_10simulation_CaptureSim.tp_getattro = __Pyx_PyObject_GenericGetAttr;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10simulation_AdvSim.tp_dictoffset && __pyx_type_10simulation_AdvSim.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_10simulation_AdvSim.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_10simulation_CaptureSim.tp_dict, __pyx_vtabptr_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_CaptureSim, (PyObject *)&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10simulation_CaptureSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
-  __pyx_ptype_10simulation_CaptureSim = &__pyx_type_10simulation_CaptureSim;
+  if (__Pyx_SetVtable(__pyx_type_10simulation_AdvSim.tp_dict, __pyx_vtabptr_10simulation_AdvSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AdvSim, (PyObject *)&__pyx_type_10simulation_AdvSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10simulation_AdvSim) < 0) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_ptype_10simulation_AdvSim = &__pyx_type_10simulation_AdvSim;
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

@@ -283,7 +283,7 @@ cdef class SimRand:
             self.cellsToSimulate.push_back(self.mirror_cells[address])
 
 
-cdef class CaptureSim(SimRand): 
+cdef class AdvSim(SimRand): 
 
     def __cinit__(self, rule_num, num_sims): 
         super(SimRand, self).__init__(rule_num, num_sims)
